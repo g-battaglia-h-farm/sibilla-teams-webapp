@@ -31,3 +31,7 @@ server.listen(process.env.port || process.env.PORT || 3333, function () {
 server.get('/', (req, res, next) => {
     send(req, __dirname + '/views/index.html').pipe(res);
 });
+
+server.get("/tab", (req, res, next) => {
+  send(req, __dirname + "/views/index.html").pipe(res);
+});
