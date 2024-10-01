@@ -1,34 +1,63 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ReactWebChat, {
-    createDirectLine,
-    createStoreWithOptions,
-} from 'botframework-webchat';
+import ReactWebChat, { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 
 const INITIAL_STATE = JSON.parse(sessionStorage.getItem('store')) || {};
+
+function getInitialState() {
+    const initialState = JSON.parse(sessionStorage.getItem('store'));
+    return initialState || {};
+}
 
 function WebChat() {
     const [session, setSession] = useState();
 
-    const middlewareFn =
+    const resetMiddleware =
         ({ dispatch }) =>
         (next) =>
         (action) => {
-            if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-                const { text } = action.payload;
+            // console.log('action', action);
 
-                if (text.startsWith('/reset')) {
-                    dispatch({
-                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
-                        payload: {
-                            ...action.payload,
-                            text: text.trim(),
-                        },
-                    });
-                    return;
-                }
+            switch (action.type) {
+                case 'WEB_CHAT/SEND_MESSAGE':
+                    const { text } = action.payload;
+
+                    if (text.startsWith('/reset')) {
+                        dispatch({
+                            type: 'WEB_CHAT/SEND_MESSAGE_BACK',
+                            payload: {
+                                ...action.payload,
+                                text: text.trim(),
+                            },
+                        });
+                        return;
+                    }
+
+                    return next(action);
+
+                case 'WEB_CHAT/SEND_POST_BACK':
+                    const { value } = action.payload;
+
+                    if (value?.action === 'submit_feedback') {
+                        console.log('submit_feedback');
+                        // next(action);
+                        sessionStorage.clear();
+                        initConversation();
+
+                        return;
+                    } else if (value?.confirm === 'no') {
+                        console.log('no');
+                        // next(action);
+                        sessionStorage.clear();
+                        initConversation();
+
+                        return;
+                    }
+
+                    return next(action);
+
+                default:
+                    return next(action);
             }
-
-            return next(action);
         };
 
     const initConversation = useCallback(() => {
@@ -36,16 +65,12 @@ function WebChat() {
             let { conversationId } = sessionStorage;
 
             if (!conversationId) {
-                const res = await fetch(
-                    'https://europe.webchat.botframework.com/v3/directline/conversations',
-                    {
-                        method: 'POST',
-                        headers: {
-                            Authorization:
-                                'Bearer -y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU',
-                        },
-                    }
-                );
+                const res = await fetch('https://europe.webchat.botframework.com/v3/directline/conversations', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer -y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU',
+                    },
+                });
 
                 const { conversationId } = await res.json();
                 sessionStorage['conversationId'] = conversationId;
@@ -59,37 +84,43 @@ function WebChat() {
                     conversationId: conversationId,
                 }),
                 key,
-                store: createStoreWithOptions(
-                    { devTools: true },
-                    INITIAL_STATE,
-                    middlewareFn
-                ),
+                store: createStoreWithOptions({ devTools: true }, getInitialState(), resetMiddleware),
             });
         })();
     }, []);
 
-    useEffect(initConversation, [initConversation]);
-
-    const sendMessage = (message) => {
+    function sendMessage(message) {
         session.store.dispatch({
             type: 'WEB_CHAT/SEND_MESSAGE',
             payload: {
                 text: message,
             },
         });
-    };
+    }
 
-    const sendResetMessage = () => {
+    function sendResetMessage() {
         sendMessage('/reset');
-        initConversation();
-    };
+        // sessionStorage.clear();
+        // initConversation();
+    }
 
     function testClick() {
-        sessionStorage.setItem(
-            'store',
-            JSON.stringify(session.store.getState())
-        );
+        sessionStorage.setItem('store', JSON.stringify(session.store.getState()));
     }
+
+    useEffect(initConversation, [initConversation]);
+
+    useEffect(() => {
+        if (!session) {
+            return;
+        }
+
+        const unsubscribe = session.store.subscribe(() => {
+            sessionStorage.setItem('store', JSON.stringify(session.store.getState()));
+        });
+
+        return () => unsubscribe();
+    }, [session]);
 
     return (
         <div
@@ -102,10 +133,7 @@ function WebChat() {
         >
             <div style={{ height: '100%', width: '100%', display: 'flex' }}>
                 <aside>
-                    <button
-                        className="sidebar-btn"
-                        onClick={() => sendResetMessage()}
-                    >
+                    <button className="sidebar-btn" onClick={() => sendResetMessage()}>
                         <i className="fa-regular fa-comment"></i>
                         Nuova chat
                     </button>
