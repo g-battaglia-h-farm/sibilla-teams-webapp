@@ -3,15 +3,33 @@ import ReactWebChat, {
     createDirectLine,
     createStoreWithOptions,
 } from 'botframework-webchat';
-import Countdown from './Countdown';
-import useTimeoutAt from './utils/useTimeoutAt';
 
-const IDLE_TIMEOUT = 2000000;
-const INITIAL_STORE = {};
+const INITIAL_STATE = JSON.parse(sessionStorage.getItem('store')) || {};
 
 function WebChat() {
-    const [resetAt, setResetAt] = useState(() => Date.now() + IDLE_TIMEOUT);
     const [session, setSession] = useState();
+
+    const middlewareFn =
+        ({ dispatch }) =>
+        (next) =>
+        (action) => {
+            if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+                const { text } = action.payload;
+
+                if (text.startsWith('/reset')) {
+                    dispatch({
+                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
+                        payload: {
+                            ...action.payload,
+                            text: text.trim(),
+                        },
+                    });
+                    return;
+                }
+            }
+
+            return next(action);
+        };
 
     const initConversation = useCallback(() => {
         (async function () {
@@ -43,43 +61,12 @@ function WebChat() {
                 key,
                 store: createStoreWithOptions(
                     { devTools: true },
-                    INITIAL_STORE,
-                    ({ dispatch }) =>
-                        (next) =>
-                        (action) => {
-                            if (
-                                action.type ===
-                                    'DIRECT_LINE/CONNECT_FULFILLED' ||
-                                action.type === 'WEB_CHAT/SUBMIT_SEND_BOX'
-                            ) {
-                                setResetAt(Date.now() + IDLE_TIMEOUT);
-                            }
-
-                            if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-                                const { text } = action.payload;
-
-                                if (text.startsWith('/reset')) {
-                                    dispatch({
-                                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
-                                        payload: {
-                                            ...action.payload,
-                                            text: text.trim(),
-                                        },
-                                    });
-                                    sessionStorage.clear();
-                                    return;
-                                }
-                            }
-
-                            return next(action);
-                        }
+                    INITIAL_STATE,
+                    middlewareFn
                 ),
             });
         })();
-    }, [setResetAt, setSession]);
-
-    // useTimeoutAt(initConversation, resetAt);
-    //             <Countdown to={resetAt} />
+    }, []);
 
     useEffect(initConversation, [initConversation]);
 
