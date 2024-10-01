@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ReactWebChat, {
     createDirectLine,
-    createStore,
+    createStoreWithOptions,
 } from 'botframework-webchat';
 import Countdown from './Countdown';
 import useTimeoutAt from './utils/useTimeoutAt';
 
 const IDLE_TIMEOUT = 2000000;
+const INITIAL_STORE = {};
 
 function WebChat() {
     const [resetAt, setResetAt] = useState(() => Date.now() + IDLE_TIMEOUT);
@@ -40,32 +41,39 @@ function WebChat() {
                     conversationId: conversationId,
                 }),
                 key,
-                store: createStore({}, ({ dispatch }) => (next) => (action) => {
-                    if (
-                        action.type === 'DIRECT_LINE/CONNECT_FULFILLED' ||
-                        action.type === 'WEB_CHAT/SUBMIT_SEND_BOX'
-                    ) {
-                        setResetAt(Date.now() + IDLE_TIMEOUT);
-                    }
+                store: createStoreWithOptions(
+                    { devTools: true },
+                    INITIAL_STORE,
+                    ({ dispatch }) =>
+                        (next) =>
+                        (action) => {
+                            if (
+                                action.type ===
+                                    'DIRECT_LINE/CONNECT_FULFILLED' ||
+                                action.type === 'WEB_CHAT/SUBMIT_SEND_BOX'
+                            ) {
+                                setResetAt(Date.now() + IDLE_TIMEOUT);
+                            }
 
-                    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-                        const { text } = action.payload;
+                            if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+                                const { text } = action.payload;
 
-                        if (text.startsWith('/reset')) {
-                            dispatch({
-                                type: 'WEB_CHAT/SEND_MESSAGE_BACK',
-                                payload: {
-                                    ...action.payload,
-                                    text: text.trim(),
-                                },
-                            });
-                            sessionStorage.clear();
-                            return;
+                                if (text.startsWith('/reset')) {
+                                    dispatch({
+                                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
+                                        payload: {
+                                            ...action.payload,
+                                            text: text.trim(),
+                                        },
+                                    });
+                                    sessionStorage.clear();
+                                    return;
+                                }
+                            }
+
+                            return next(action);
                         }
-                    }
-
-                    return next(action);
-                }),
+                ),
             });
         })();
     }, [setResetAt, setSession]);
@@ -89,6 +97,13 @@ function WebChat() {
         initConversation();
     };
 
+    function testClick() {
+        sessionStorage.setItem(
+            'store',
+            JSON.stringify(session.store.getState())
+        );
+    }
+
     return (
         <div
             style={{
@@ -106,6 +121,11 @@ function WebChat() {
                     >
                         <i className="fa-regular fa-comment"></i>
                         Nuova chat
+                    </button>
+
+                    <button className="sidebar-btn" onClick={() => testClick()}>
+                        <i className="fa-regular fa-comment"></i>
+                        Chat attiva
                     </button>
                 </aside>
 
