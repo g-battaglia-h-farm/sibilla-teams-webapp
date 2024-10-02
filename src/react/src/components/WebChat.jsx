@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ReactWebChat, { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 
-const INITIAL_STATE = JSON.parse(sessionStorage.getItem('store')) || {};
-
 function getInitialState() {
     const initialState = JSON.parse(sessionStorage.getItem('store'));
     return initialState || {};
@@ -15,10 +13,8 @@ function WebChat() {
         ({ dispatch }) =>
         (next) =>
         (action) => {
-            // console.log('action', action);
-
             switch (action.type) {
-                case 'WEB_CHAT/SEND_MESSAGE':
+                case 'WEB_CHAT/SEND_MESSAGE': {
                     const { text } = action.payload;
 
                     if (text.startsWith('/reset')) {
@@ -33,27 +29,25 @@ function WebChat() {
                     }
 
                     return next(action);
+                }
 
-                case 'WEB_CHAT/SEND_POST_BACK':
+                case 'WEB_CHAT/SEND_POST_BACK': {
                     const { value } = action.payload;
 
                     if (value?.action === 'submit_feedback') {
-                        console.log('submit_feedback');
-                        // next(action);
+                        console.log('END WITH SUBMIT');
                         sessionStorage.clear();
                         initConversation();
-
                         return;
                     } else if (value?.confirm === 'no') {
-                        console.log('no');
-                        // next(action);
+                        console.log('END WITH NO');
                         sessionStorage.clear();
                         initConversation();
-
                         return;
                     }
 
                     return next(action);
+                }
 
                 default:
                     return next(action);
@@ -115,11 +109,9 @@ function WebChat() {
             return;
         }
 
-        const unsubscribe = session.store.subscribe(() => {
+        session.store.subscribe(() => {
             sessionStorage.setItem('store', JSON.stringify(session.store.getState()));
         });
-
-        return () => unsubscribe();
     }, [session]);
 
     return (
