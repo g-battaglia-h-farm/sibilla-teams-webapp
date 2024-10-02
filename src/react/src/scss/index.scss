@@ -31,7 +31,6 @@
     --brand-purple: #ab68ff;
 }
 
-
 a {
     font-weight: 500;
     color: #646cff;
@@ -55,12 +54,10 @@ h1 {
     line-height: 1.1;
 }
 
-
 aside {
     background-color: var(--gray-950);
     width: 300px;
     padding: 1rem;
-
 
     .sidebar-btn {
         // Should be ghost
@@ -76,12 +73,31 @@ aside {
         transition: border-color 0.25s;
         background-color: transparent;
         text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         &:hover {
             background-color: #202020;
         }
     }
 }
+
+// Webchat styles
+
+.webchat-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.webchat-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
 .webchat__icon-button {
     border-radius: 16px !important;
     background-color: var(--gray-750) !important;
@@ -103,7 +119,6 @@ aside {
         background: transparent !important;
         cursor: pointer !important;
     }
-
 }
 
 .webchat__upload-button {
@@ -135,7 +150,6 @@ aside {
     border-radius: 16px !important;
 }
 
-
 .webchat__send-box {
     background-color: var(--gray-800) !important;
     padding: 2rem !important;
@@ -152,5 +166,4 @@ aside {
             color: var(--white) !important;
         }
     }
-
 }
