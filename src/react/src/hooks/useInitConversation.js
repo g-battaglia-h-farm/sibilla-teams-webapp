@@ -9,7 +9,11 @@ const DOMAIN = 'https://europe.webchat.botframework.com/v3/directline';
 const TOKEN = '-y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU';
 
 function useInitConversation() {
-    const [session, setSession] = useState();
+    const [session, setSession] = useState({
+        directLine: null,
+        key: null,
+        store: null,
+    });
 
     const initConversation = useCallback(async () => {
         let { conversationId } = sessionStorage;
@@ -28,7 +32,11 @@ function useInitConversation() {
                 conversationId: conversationId,
             }),
             key,
-            store: createStoreWithOptions({ devTools: true }, getInitialState(), resetMiddleware(initConversation)),
+            store: createStoreWithOptions(
+                { devTools: true },
+                getInitialState(),
+                resetMiddleware(initConversation)
+            ),
         });
     }, []);
 

@@ -7,29 +7,40 @@ function WebChat() {
     const { session, initConversation } = useInitConversation();
 
     function sendMessage(message) {
-        session.store.dispatch({
-            type: 'WEB_CHAT/SEND_MESSAGE',
-            payload: {
-                text: message,
-            },
-        });
+        if (session?.store) {
+            session.store.dispatch({
+                type: 'WEB_CHAT/SEND_MESSAGE',
+                payload: { text: message },
+            });
+        }
     }
 
     function sendResetMessage() {
         sendMessage('/reset');
     }
 
-    useEffect(initConversation, [initConversation]);
-
     useEffect(() => {
-        if (!session) {
-            return;
-        }
+        const initializeSession = async () => {
+            if (!session?.directLine || !session?.store || !session?.key) {
+                try {
+                    await initConversation(); // Initialize conversation (async)
+                } catch (error) {
+                    console.error('Error initializing session:', error);
+                }
+            }
 
-        session.store.subscribe(() => {
-            sessionStorage.setItem('store', JSON.stringify(session.store.getState()));
-        });
-    }, [session]);
+            if (session?.store) {
+                session.store.subscribe(() => {
+                    sessionStorage.setItem(
+                        'store',
+                        JSON.stringify(session.store.getState())
+                    );
+                });
+            }
+        };
+
+        initializeSession();
+    }, [session, initConversation]);
 
     return (
         <div className="webchat-container">
@@ -41,7 +52,7 @@ function WebChat() {
                     </button>
                 </aside>
 
-                {!!session && (
+                {!!session.directLine && !!session.store && (
                     <ReactWebChat
                         className="chat"
                         directLine={session.directLine}
