@@ -1,0 +1,86 @@
+// Webchat styles
+
+.webchat-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-right: 2rem;
+}
+
+.webchat-content {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    display: flex;
+}
+
+.webchat__icon-button {
+    border-radius: 16px !important;
+    background-color: var(--gray-750) !important;
+    background: var(--gray-750) !important;
+
+    &:hover {
+        background-color: transparent !important;
+        background: transparent !important;
+        cursor: pointer !important;
+    }
+}
+
+.webchat__icon-button__shade {
+    border-radius: 16px !important;
+    background-color: var(--gray-750) !important;
+
+    &:hover {
+        background-color: transparent !important;
+        background: transparent !important;
+        cursor: pointer !important;
+    }
+}
+
+.webchat__upload-button {
+    border-radius: 16px !important;
+    background-color: var(--gray-750) !important;
+    color: var(--white) !important;
+
+    &:hover {
+        background-color: var(--gray-750) !important;
+    }
+}
+
+.webchat__bubble {
+    background-color: var(--gray-800) !important;
+
+    .webchat__text-content {
+        color: var(--white) !important;
+        background-color: var(--gray-750) !important;
+        border: none !important;
+        border-radius: 16px !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+}
+
+.webchat__bubble__content {
+    background-color: var(--gray-800) !important;
+    border: none !important;
+    border-radius: 16px !important;
+}
+
+.webchat__send-box {
+    background-color: var(--gray-800) !important;
+    padding: 2rem !important;
+
+    .webchat__send-box__main {
+        background-color: var(--gray-750) !important;
+        border-radius: 16px !important;
+        border: none !important;
+        color: var(--white) !important;
+
+        .webchat__send-box-text-box__input {
+            background-color: var(--gray-750) !important;
+            border: none !important;
+            color: var(--white) !important;
+        }
+    }
+}

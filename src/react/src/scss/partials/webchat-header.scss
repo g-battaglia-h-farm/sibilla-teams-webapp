@@ -1,0 +1,36 @@
+.webchat-header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+    // background-color: var(--gray-950);
+    height: var(--header-height);
+
+    h1 {
+        font-size: 1rem;
+        line-height: 1.1;
+    }
+
+    button {
+        background-color: transparent;
+        width: 100%;
+        max-width: 200px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1rem;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: border-color 0.25s;
+        background-color: transparent;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:hover {
+            background-color: var(--gray-900);
+        }
+    }
+}
