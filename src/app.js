@@ -18,9 +18,9 @@ const server = restify.createServer({
 });
 
 server.get(
-    '/static/*',
+    '/assets/*',
     restify.plugins.serveStatic({
-        directory: __dirname + '/react/build/',
+        directory: __dirname + '/react-built/',
     })
 );
 
@@ -29,9 +29,9 @@ server.listen(process.env.port || process.env.PORT || 3333, function () {
 });
 
 server.get('/', (req, res, next) => {
-    send(req, __dirname + '/react/build/index.html').pipe(res);
+    send(req, __dirname + '/react-built/index.html').pipe(res);
 });
 
 server.get("/tab", (req, res, next) => {
-  send(req, __dirname + "/react/build/index.html").pipe(res);
+  send(req, __dirname + "/react-built/index.html").pipe(res);
 });
