@@ -7,8 +7,13 @@ export default function storeConversation() {
         (conversation) => conversation.id === sessionStorage['conversationId'],
     );
 
-    // È inutile salvare le conversazioni vuote.
+    // Conversazioni vuote
     if (!parsedStore.activities.length) {
+        return;
+    }
+
+    // Messaggi di reset
+    if (parsedStore.activities[0].type === 'message' && parsedStore.activities[0].text === '/reset') {
         return;
     }
 
@@ -33,6 +38,7 @@ export default function storeConversation() {
     } else {
         conversationStorage.push({
             id: sessionStorage['conversationId'],
+            title: parsedStore.activities[0].text,
             store: JSON.stringify(parsedStore),
         });
     }

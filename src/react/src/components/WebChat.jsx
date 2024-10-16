@@ -30,6 +30,14 @@ function WebChat() {
         initConversation();
     }
 
+    function openSidebar() {
+        document.body.classList.add('sidebar-open');
+    }
+
+    function closeSidebar() {
+        document.body.classList.remove('sidebar-open');
+    }
+
     useEffect(() => {
         const initializeSession = async () => {
             if (!session?.directLine || !session?.store || !session?.key) {
@@ -60,10 +68,36 @@ function WebChat() {
         setOldConversations(JSON.parse(localStorage.getItem('conversationStorage')));
     }, [session]);
 
+    useEffect(() => {
+        // Check if we are in desktop mode
+        if (window.innerWidth >= 992) {
+            // Assuming 1024px as the breakpoint for desktop
+            document.body.classList.add('sidebar-open');
+        } else {
+            document.body.classList.remove('sidebar-open');
+        }
+
+        // Optional: Add a resize event listener to handle window resizing
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                document.body.classList.add('sidebar-open');
+            } else {
+                document.body.classList.remove('sidebar-open');
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <div className="main-container">
             <aside className="sidebar">
-                <button className="sidebar-btn menu">
+                <button className="sidebar-btn menu" onClick={closeSidebar}>
                     <MenuIcon />
                 </button>
                 <div className="buttons">
@@ -74,14 +108,17 @@ function WebChat() {
                                 key={conversation.id}
                                 onClick={() => resumeConversation(conversation.id)}
                             >
-                                {conversation.id}
+                                {conversation?.title?.substring(0, 20) + ' ...'}
                             </button>
                         ))}
                 </div>
             </aside>
             <div className="webchat-container">
                 <div className="webchat-header">
-                    <button className="sidebar-btn" onClick={sendResetMessage}>
+                    <button className="menu" onClick={openSidebar}>
+                        <MenuIcon />
+                    </button>
+                    <button className="header-btn" onClick={sendResetMessage}>
                         Nuova chat
                         <NewChatIcon />
                     </button>
