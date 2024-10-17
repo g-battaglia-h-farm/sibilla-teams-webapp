@@ -6,14 +6,12 @@ function removeDotSlashPlugin() {
         name: 'vite-plugin-remove-dot-slash',
         transformIndexHtml(html) {
             return html.replace(/(href|src)="(\.\/.*?)"/g, (match, attr, path) => {
-                // Remove './' from the start of the path
                 const newPath = path.replace(/^\.\//, '');
                 return `${attr}="${newPath}"`;
             });
         },
     };
 }
-
 
 export default defineConfig({
     plugins: [react(), removeDotSlashPlugin()],
