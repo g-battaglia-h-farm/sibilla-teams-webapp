@@ -4,6 +4,7 @@ import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
 import MenuIcon from './icons/MenuIcon';
 import storeConversation from '../store/storeConversation';
+import ThemeToggle from './ThemeToggle';
 
 function WebChat() {
     const { session, initConversation } = useInitConversation();
@@ -27,6 +28,12 @@ function WebChat() {
         sessionStorage['conversationId'] = conversationId;
         sessionStorage['store'] = oldConversations.find((conversation) => conversation.id === conversationId).store;
         console.log('Resuming conversation:', conversationId);
+
+        // Check if we are in desktop mode
+        if (window.innerWidth < 992) {
+            closeSidebar();
+        }
+
         initConversation();
     }
 
@@ -97,9 +104,12 @@ function WebChat() {
     return (
         <div className="main-container">
             <aside className="sidebar">
-                <button className="sidebar-btn menu" onClick={closeSidebar}>
-                    <MenuIcon />
-                </button>
+                <div className="main-buttons">
+                    <button className="sidebar-btn menu" onClick={closeSidebar}>
+                        <MenuIcon />
+                    </button>
+                    <ThemeToggle />
+                </div>
                 <div className="buttons">
                     {!!oldConversations.length &&
                         oldConversations.map((conversation) => (
@@ -114,7 +124,7 @@ function WebChat() {
                 </div>
             </aside>
             <div className="webchat-container">
-                <div className="webchat-header">
+                <div className="header">
                     <button className="menu" onClick={openSidebar}>
                         <MenuIcon />
                     </button>
@@ -133,8 +143,8 @@ function WebChat() {
                                 store={session.store}
                                 styleOptions={{
                                     rootHeight: '100%',
-                                    backgroundColor: 'var(--gray-800)',
-                                    bubbleTextColor: 'var(--gray-50)',
+                                    backgroundColor: 'var(--webchat-bg)',
+                                    bubbleTextColor: 'var(--webchat-bubble-text-color)',
                                 }}
                             />
                         </div>

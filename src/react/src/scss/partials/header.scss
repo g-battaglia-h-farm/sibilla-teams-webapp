@@ -1,4 +1,4 @@
-.webchat-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,6 +38,16 @@
             background-color: var(--gray-900);
         }
 
+        &.header-btn {
+            width: auto;
+            gap: 0.75rem;
+            svg {
+                width: 1.2rem;
+                height: 1.2rem;
+                margin-top: 0.3em;
+            }
+        }
+
         &.menu {
             width: 50px;
             height: 50px;
@@ -48,6 +58,20 @@
 
             body.sidebar-open & {
                 display: none;
+            }
+        }
+
+        &.theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 40px;
+            height: 40px;
+
+            svg {
+                width: 1rem;
+                height: 1rem;
             }
         }
     }

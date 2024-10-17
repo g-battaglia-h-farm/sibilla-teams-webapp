@@ -1,5 +1,4 @@
 .sidebar {
-    background-color: var(--gray-950);
     width: 300px;
     padding: 1rem 2rem;
     height: 100vh;
@@ -11,6 +10,11 @@
     align-items: start;
     position: absolute;
     left: -400px;
+    background-color: var(--gray-800);
+
+    html[data-theme='dark'] & {
+        background-color: var(--gray-950);
+    }
 
     body.sidebar-open & {
         position: absolute;
@@ -21,6 +25,14 @@
         @media (min-width: 768px) {
             position: relative;
         }
+    }
+
+    .main-buttons {
+        display: flex;
+        gap: .5rem;
+        margin-bottom: 2rem;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .sidebar-btn {
