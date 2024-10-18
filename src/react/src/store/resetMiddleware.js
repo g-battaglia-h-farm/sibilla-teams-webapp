@@ -1,4 +1,4 @@
-import storeConversation from './storeConversation';
+import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import useConversationStore from '../zustand/conversation';
 
 const resetMiddleware =
@@ -28,7 +28,7 @@ const resetMiddleware =
             // Stop conversazione dopo il feedback
             case 'DIRECT_LINE/INCOMING_ACTIVITY': {
                 if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_COMPLETED') {
-                    storeConversation();
+                    storeCurrentConversation();
                     useConversationStore.getState().removeConversation();
                     initConversation();
                     console.info('QUIT_COMPLETED');

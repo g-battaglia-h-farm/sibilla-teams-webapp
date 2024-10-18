@@ -1,7 +1,7 @@
-import useConversationStore from '../zustand/conversation';
-import useConversationHistoryStore from '../zustand/conversationsHistory';
+import useConversationStore from '../conversation';
+import useConversationHistoryStore from '../conversationsHistory';
 
-export default function storeConversation() {
+export default function storeCurrentConversation() {
     const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
 
     const conversation = useConversationStore.getState().conversation;

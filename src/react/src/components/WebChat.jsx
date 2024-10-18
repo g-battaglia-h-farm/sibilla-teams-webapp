@@ -4,7 +4,7 @@ import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
 import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
-import storeConversation from '../store/storeConversation';
+import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import ThemeToggle from './ThemeToggle';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
@@ -30,7 +30,7 @@ function WebChat() {
     }
 
     function resumeConversation(conversationId) {
-        storeConversation();
+        storeCurrentConversation();
 
         const foundConversation = oldConversations.find((oldConversation) => oldConversation.id === conversationId);
 
@@ -145,7 +145,14 @@ function WebChat() {
                 </div>
             </div>
             <aside className="sidebar">
-                <h2 className="sidebar-title">Conversazioni</h2>
+                <div className="sidebar-header">
+                    <h2 className="sidebar-title">Conversazioni</h2>
+                    <div className="main-buttons">
+                        <button className="sidebar-btn" onClick={closeSidebar}>
+                            <MenuCloseIcon />
+                        </button>
+                    </div>
+                </div>
                 <div className="buttons">
                     {!!oldConversations.length &&
                         oldConversations.map((oldConversation) => (
