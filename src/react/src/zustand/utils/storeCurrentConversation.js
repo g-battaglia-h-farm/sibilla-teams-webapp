@@ -8,7 +8,6 @@ export default function storeCurrentConversation() {
 
     const webChatStore = conversation.store;
     const parsedStore = webChatStore;
-    console.log('parsedStore', parsedStore);
 
     const conversationIndex = conversationStorage.findIndex(
         (conversation) => conversation.id === useConversationStore.getState().conversation.id,

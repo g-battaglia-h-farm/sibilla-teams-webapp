@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 
-import resetMiddleware from '../store/resetMiddleware';
+import resetMiddleware from '../middleware/resetMiddleware';
 import API from '../API';
 import useConversationStore from '../zustand/conversation';
 
