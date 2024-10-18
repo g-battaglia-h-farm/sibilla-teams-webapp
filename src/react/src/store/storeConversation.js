@@ -1,7 +1,8 @@
 import useConversationStore from '../zustand/conversation';
+import useConversationHistoryStore from '../zustand/conversationsHistory';
 
 export default function storeConversation() {
-    const conversationStorage = JSON.parse(localStorage.getItem('conversationStorage')) || [];
+    const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
 
     const conversation = useConversationStore.getState().conversation;
 
@@ -40,14 +41,14 @@ export default function storeConversation() {
     // Se la conversazione è già presente nello storico, sovrascrivi i dati,
     // altrimenti aggiungi la conversazione allo storico.
     if (conversationIndex !== -1) {
-        conversationStorage[conversationIndex].store = JSON.stringify(parsedStore);
+        useConversationHistoryStore.getState().updateConversation(conversation.id, parsedStore);
     } else {
-        conversationStorage.push({
+        useConversationHistoryStore.getState().addConversation({
             id: conversation.id,
             title: parsedStore.activities[0].text,
             store: conversation.store,
         });
     }
 
-    localStorage.setItem('conversationStorage', JSON.stringify(conversationStorage));
+    useConversationHistoryStore.getState().updateConversation(conversation.id, parsedStore);
 }

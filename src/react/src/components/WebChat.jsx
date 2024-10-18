@@ -7,6 +7,7 @@ import MenuCloseIcon from './icons/MenuCloseIcon';
 import storeConversation from '../store/storeConversation';
 import ThemeToggle from './ThemeToggle';
 import useConversationStore from '../zustand/conversation';
+import useConversationHistoryStore from '../zustand/conversationsHistory';
 
 function WebChat() {
     const { session, initConversation } = useInitConversation();
@@ -76,14 +77,9 @@ function WebChat() {
     }, [session, initConversation]);
 
     useEffect(() => {
-        const conversationStorage = localStorage.getItem('conversationStorage');
-        console.log('conversationStorage', conversationStorage);
+        const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
 
-        if (!conversationStorage) {
-            localStorage.setItem('conversationStorage', JSON.stringify([]));
-        }
-
-        setOldConversations(JSON.parse(localStorage.getItem('conversationStorage')));
+        setOldConversations(conversationStorage);
     }, [session]);
 
     useEffect(() => {
