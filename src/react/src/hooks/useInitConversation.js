@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 import { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 
 import resetMiddleware from '../store/resetMiddleware';
-import getInitialState from '../store/getInitialState';
 import API from '../API';
+import useConversationStore from '../zustand/conversation';
 
 const DOMAIN = 'https://europe.webchat.botframework.com/v3/directline';
 const TOKEN = '-y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU';
@@ -16,11 +16,18 @@ function useInitConversation() {
     });
 
     const initConversation = useCallback(async () => {
-        let { conversationId } = sessionStorage;
+        let conversationId = useConversationStore.getState().conversation.id;
+        console.log('initConversation', conversationId);
+        const parsedStore = JSON.parse(useConversationStore.getState().conversation.store);
+        console.log('parsedStore', parsedStore);
 
         if (!conversationId) {
             conversationId = await API.fetchConversationId();
-            sessionStorage['conversationId'] = conversationId;
+            useConversationStore.getState().setConversation({
+                id: conversationId,
+                title: 'Nuova chat',
+                store: '',
+            });
         }
 
         const key = Date.now();
@@ -32,11 +39,7 @@ function useInitConversation() {
                 conversationId: conversationId,
             }),
             key,
-            store: createStoreWithOptions(
-                { devTools: true },
-                getInitialState(),
-                resetMiddleware(initConversation)
-            ),
+            store: createStoreWithOptions({ devTools: true }, parsedStore, resetMiddleware(initConversation)),
         });
     }, []);
 

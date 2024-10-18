@@ -1,10 +1,17 @@
+import useConversationStore from '../zustand/conversation';
+
 export default function storeConversation() {
+    console.log('storeConversation');
     const conversationStorage = JSON.parse(localStorage.getItem('conversationStorage')) || [];
-    const webChatStore = sessionStorage['store'];
+
+    const conversation = useConversationStore.getState().conversation;
+
+    const webChatStore = conversation.store;
     const parsedStore = JSON.parse(webChatStore);
+    console.log('storeConversation', conversation);
 
     const conversationIndex = conversationStorage.findIndex(
-        (conversation) => conversation.id === sessionStorage['conversationId'],
+        (conversation) => conversation.id === useConversationStore.getState().conversation.id,
     );
 
     // Conversazioni vuote
@@ -37,11 +44,14 @@ export default function storeConversation() {
         conversationStorage[conversationIndex].store = JSON.stringify(parsedStore);
     } else {
         conversationStorage.push({
-            id: sessionStorage['conversationId'],
+            id: conversation.id,
             title: parsedStore.activities[0].text,
-            store: JSON.stringify(parsedStore),
+            store: conversation.store,
         });
     }
 
+    console.log('Storing this:', conversationStorage);
     localStorage.setItem('conversationStorage', JSON.stringify(conversationStorage));
+    console.log('Conversation stored');
+    console.log(localStorage.getItem('conversationStorage'));
 }

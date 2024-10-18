@@ -1,11 +1,11 @@
 import storeConversation from './storeConversation';
+import useConversationStore from '../zustand/conversation';
 
 const resetMiddleware =
     (initConversation) =>
     ({ dispatch }) =>
     (next) =>
     (action) => {
-        console.log('resetMiddleware', action);
 
         switch (action.type) {
             case 'WEB_CHAT/SEND_MESSAGE': {
@@ -27,9 +27,13 @@ const resetMiddleware =
 
             // Stop conversazione dopo il feedback
             case 'DIRECT_LINE/INCOMING_ACTIVITY': {
+                console.log('DIRECT_LINE/INCOMING_ACTIVITY');
                 if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_COMPLETED') {
+                    console.log('HELLO');
                     storeConversation();
-                    sessionStorage.clear();
+                    console.log('storeConversation');
+                    useConversationStore.getState().removeConversation();
+                    console.log('Conversation removed');
                     initConversation();
                     console.log('QUIT_COMPLETED');
                     return;
