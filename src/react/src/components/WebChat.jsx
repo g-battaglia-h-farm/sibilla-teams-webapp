@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactWebChat from 'botframework-webchat';
 import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
-import MenuIcon from './icons/MenuIcon';
+import MenuOpenIcon from './icons/MenuOpenIcon';
+import MenuCloseIcon from './icons/MenuCloseIcon';
 import storeConversation from '../store/storeConversation';
 import ThemeToggle from './ThemeToggle';
 
@@ -103,34 +104,20 @@ function WebChat() {
 
     return (
         <div className="main-container">
-            <aside className="sidebar">
-                <div className="main-buttons">
-                    <button className="sidebar-btn menu" onClick={closeSidebar}>
-                        <MenuIcon />
-                    </button>
-                    <ThemeToggle />
-                </div>
-                <div className="buttons">
-                    {!!oldConversations.length &&
-                        oldConversations.map((conversation) => (
-                            <button
-                                className="sidebar-btn"
-                                key={conversation.id}
-                                onClick={() => resumeConversation(conversation.id)}
-                            >
-                                {conversation?.title?.substring(0, 20) + ' ...'}
-                            </button>
-                        ))}
-                </div>
-            </aside>
             <div className="webchat-container">
                 <div className="header">
-                    <button className="menu" onClick={openSidebar}>
-                        <MenuIcon />
-                    </button>
+                    <ThemeToggle />
+
                     <button className="header-btn" onClick={sendResetMessage}>
                         Nuova chat
                         <NewChatIcon />
+                    </button>
+                    <button className="menu open" onClick={openSidebar}>
+                        <MenuOpenIcon />
+                    </button>
+
+                    <button className="menu close" onClick={closeSidebar}>
+                        <MenuCloseIcon />
                     </button>
                 </div>
                 <div className="webchat-content">
@@ -151,6 +138,21 @@ function WebChat() {
                     )}
                 </div>
             </div>
+            <aside className="sidebar">
+                <h2 className="sidebar-title">Conversazioni</h2>
+                <div className="buttons">
+                    {!!oldConversations.length &&
+                        oldConversations.map((conversation) => (
+                            <button
+                                className="sidebar-btn"
+                                key={conversation.id}
+                                onClick={() => resumeConversation(conversation.id)}
+                            >
+                                {conversation?.title?.substring(0, 40) + ' ...'}
+                            </button>
+                        ))}
+                </div>
+            </aside>
         </div>
     );
 }

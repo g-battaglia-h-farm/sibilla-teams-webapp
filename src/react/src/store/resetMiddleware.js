@@ -5,6 +5,8 @@ const resetMiddleware =
     ({ dispatch }) =>
     (next) =>
     (action) => {
+        console.log('resetMiddleware', action);
+
         switch (action.type) {
             case 'WEB_CHAT/SEND_MESSAGE': {
                 const { text } = action.payload;
@@ -23,51 +25,16 @@ const resetMiddleware =
                 return next(action);
             }
 
-            case 'WEB_CHAT/SEND_POST_BACK': {
-                const { value } = action.payload;
-
-                if (value?.action === 'submit_feedback') {
-                    console.log('END WITH SUBMIT');
-
-                    storeConversation();
-
-                    sessionStorage.clear();
-
-                    initConversation();
-                    return;
-                } else if (value?.confirm === 'no') {
-                    console.log('END WITH NO');
-
-                    storeConversation();
-
-                    sessionStorage.clear();
-                    initConversation();
-                    return;
-                }
-
-                return next(action);
-            }
-
-            /*
+            // Stop conversazione dopo il feedback
             case 'DIRECT_LINE/INCOMING_ACTIVITY': {
-                // If it's an adaptive card, we don't want to store it.
-                const { activity } = action.payload;
-
-                if (
-                    activity.type === 'message' &&
-                    activity.attachments &&
-                    activity.attachments.some(
-                        (attachment) => attachment.contentType === 'application/vnd.microsoft.card.adaptive',
-                    )
-                ) {
-                    // Skip storing the activity if it's an adaptive card
+                if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_COMPLETED') {
+                    storeConversation();
+                    sessionStorage.clear();
+                    initConversation();
+                    console.log('QUIT_COMPLETED');
                     return;
                 }
-
-                // Otherwise, proceed with the next middleware or reducer
-                return next(action);
             }
-            */
 
             default:
                 return next(action);

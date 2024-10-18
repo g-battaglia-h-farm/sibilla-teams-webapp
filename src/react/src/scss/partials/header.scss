@@ -1,9 +1,8 @@
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    gap: 1rem;
-    // background-color: var(--gray-950);
+    gap: 0rem;
     height: var(--header-height);
     padding: 0 2rem;
 
@@ -56,8 +55,23 @@
             align-items: center;
             justify-content: center;
 
-            body.sidebar-open & {
+            &.open {
+                body.sidebar-open & {
+                    display: none;
+                }
+            }
+
+            &.close {
                 display: none;
+
+                body.sidebar-open & {
+                    display: flex;
+                }
+            }
+
+            svg {
+                width: 1.45rem;
+                height: 1.45rem;
             }
         }
 
