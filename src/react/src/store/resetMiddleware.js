@@ -27,15 +27,11 @@ const resetMiddleware =
 
             // Stop conversazione dopo il feedback
             case 'DIRECT_LINE/INCOMING_ACTIVITY': {
-                console.log('DIRECT_LINE/INCOMING_ACTIVITY');
                 if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_COMPLETED') {
-                    console.log('HELLO');
                     storeConversation();
-                    console.log('storeConversation');
                     useConversationStore.getState().removeConversation();
-                    console.log('Conversation removed');
                     initConversation();
-                    console.log('QUIT_COMPLETED');
+                    console.info('QUIT_COMPLETED');
                     return;
                 }
             }

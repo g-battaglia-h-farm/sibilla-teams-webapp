@@ -1,14 +1,13 @@
 import useConversationStore from '../zustand/conversation';
 
 export default function storeConversation() {
-    console.log('storeConversation');
     const conversationStorage = JSON.parse(localStorage.getItem('conversationStorage')) || [];
 
     const conversation = useConversationStore.getState().conversation;
 
     const webChatStore = conversation.store;
-    const parsedStore = JSON.parse(webChatStore);
-    console.log('storeConversation', conversation);
+    const parsedStore = webChatStore;
+    console.log('parsedStore', parsedStore);
 
     const conversationIndex = conversationStorage.findIndex(
         (conversation) => conversation.id === useConversationStore.getState().conversation.id,
@@ -50,8 +49,5 @@ export default function storeConversation() {
         });
     }
 
-    console.log('Storing this:', conversationStorage);
     localStorage.setItem('conversationStorage', JSON.stringify(conversationStorage));
-    console.log('Conversation stored');
-    console.log(localStorage.getItem('conversationStorage'));
 }

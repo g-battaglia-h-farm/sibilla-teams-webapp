@@ -17,9 +17,7 @@ function useInitConversation() {
 
     const initConversation = useCallback(async () => {
         let conversationId = useConversationStore.getState().conversation.id;
-        console.log('initConversation', conversationId);
-        const parsedStore = JSON.parse(useConversationStore.getState().conversation.store);
-        console.log('parsedStore', parsedStore);
+        const parsedStore = useConversationStore.getState().conversation.store;
 
         if (!conversationId) {
             conversationId = await API.fetchConversationId();

@@ -10,8 +10,6 @@ const useConversationStore = create(
                 store: '{}',
             },
             setConversation: (conversation) => {
-                console.log('setConversation', conversation);
-                console.log('setConversation store->', conversation.store);
                 set({ conversation: { id: conversation.id, title: conversation.title, store: conversation.store } });
             },
             setConversationStore: (store) => set({ conversation: { ...get().conversation, store } }),

@@ -29,12 +29,9 @@ function WebChat() {
     }
 
     function resumeConversation(conversationId) {
-        console.log('Resuming conversation 1:', conversationId);
         storeConversation();
-        console.log('OLD', oldConversations);
 
         const foundConversation = oldConversations.find((oldConversation) => oldConversation.id === conversationId);
-        console.log('Found conversation:', foundConversation);
 
         setConversation({
             id: conversationId,
@@ -42,16 +39,12 @@ function WebChat() {
             store: foundConversation.store,
         });
 
-        console.log('Resuming conversation 2:', conversation)
-
         // Check if we are in desktop mode
         if (window.innerWidth < 992) {
             closeSidebar();
         }
 
         initConversation();
-
-        console.log('Resuming conversation 3:', conversation)
     }
 
     function openSidebar() {
@@ -74,14 +67,7 @@ function WebChat() {
 
             if (session?.store) {
                 session.store.subscribe(() => {
-                    //console.log('Before store updated');
-                    //console.log('store', session.store.getState());
-
-                    setConversationStore(JSON.stringify(session.store.getState()));
-                    //console.log('After store updated');
-                    //console.log('conversation', session.store.getState());
-
-                    //console.log('store', session.store.getState());
+                    setConversationStore(session.store.getState());
                 });
             }
         };
@@ -91,6 +77,7 @@ function WebChat() {
 
     useEffect(() => {
         const conversationStorage = localStorage.getItem('conversationStorage');
+        console.log('conversationStorage', conversationStorage);
 
         if (!conversationStorage) {
             localStorage.setItem('conversationStorage', JSON.stringify([]));
