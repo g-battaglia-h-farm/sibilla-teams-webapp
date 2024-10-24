@@ -9,11 +9,12 @@ const useConversationStore = create(
                 conversation: {
                     id: '',
                     title: '',
+                    token: '',
                     store: '{}',
                 },
                 setConversation: (conversation) => {
                     set({
-                        conversation: { id: conversation.id, title: conversation.title, store: conversation.store },
+                        conversation: { id: conversation.id, title: conversation.title, store: conversation.store, token: conversation.token },
                     });
                 },
                 setConversationStore: (store) => set({ conversation: { ...get().conversation, store } }),
