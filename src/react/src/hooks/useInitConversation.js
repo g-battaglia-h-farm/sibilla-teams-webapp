@@ -24,11 +24,9 @@ function useInitConversation() {
         }
 
         if (!token) {
-            console.log('--- > Fetching new token, old token:', token);
             const { token: newToken } = await API.getJwt();
             token = newToken;
             useConversationStore.getState().setConversation({ ...useConversationStore.getState().conversation, token });
-            console.log('--- > Token:', token);
         }
 
         if (!conversationId) {
