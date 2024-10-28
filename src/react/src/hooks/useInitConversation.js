@@ -7,7 +7,6 @@ import useConversationStore from '../zustand/conversation';
 import isJwtValid from '../utils';
 
 const DOMAIN = 'https://europe.webchat.botframework.com/v3/directline';
-const TOKEN = '-y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU';
 
 function useInitConversation() {
     const [session, setSession] = useState({
@@ -47,7 +46,7 @@ function useInitConversation() {
         setSession({
             directLine: createDirectLine({
                 domain: DOMAIN,
-                token: TOKEN,
+                token: token,
                 conversationId: conversationId,
             }),
             key,
