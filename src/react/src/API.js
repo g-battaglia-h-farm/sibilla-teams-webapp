@@ -11,12 +11,12 @@ const API = {
     },
 
     getJwt: async () => {
-        const res = await fetch('https://europe.webchat.botframework.com/v3/directline/tokens/generate', {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer -y4zYgzySyQ.mI95uwEU3mELuz4-DA7tSt7cE2Z0Y0TNZAn3X3IdCgU',
+        const res = await fetch(
+            'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net/api/get-token',
+            {
+                method: 'GET',
             },
-        });
+        );
 
         return res.json();
     },
