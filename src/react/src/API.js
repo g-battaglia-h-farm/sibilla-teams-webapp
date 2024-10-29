@@ -1,3 +1,5 @@
+const BASE_URL = __BASE_API_ENDPOINT__;
+
 const API = {
     fetchConversationId: async (token) => {
         const res = await fetch('https://europe.webchat.botframework.com/v3/directline/conversations', {
@@ -10,13 +12,30 @@ const API = {
         return conversationId;
     },
 
-    getJwt: async () => {
-        const res = await fetch(
-            'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net/api/get-token',
-            {
-                method: 'GET',
-            },
-        );
+    /**
+     * Restituisce il token e l'id per iniziare una nuova conversazione.
+     *
+     * @returns {Promise<{token: string}>}
+     */
+    newConversations: async () => {
+        const res = await fetch(BASE_URL + '/api/new-conversation', {
+            method: 'POST',
+        });
+
+        return res.json();
+    },
+
+    /**
+     * Restituisce il token per riprendere una conversazione sulla base dell'id.
+     *
+     * @param {string} conversationId
+     * @param {string} message
+     * @returns {Promise<{token: string}>}
+     */
+    resumeConversations: async (conversationId) => {
+        const res = await fetch(BASE_URL + '/api/resume-conversation?conversationId=' + conversationId, {
+            method: 'GET',
+        });
 
         return res.json();
     },

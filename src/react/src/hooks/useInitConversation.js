@@ -19,24 +19,28 @@ function useInitConversation() {
         const parsedStore = useConversationStore.getState().conversation.store;
         let conversationId = useConversationStore.getState().conversation.id;
         let token = useConversationStore.getState().conversation.token;
+
         if (token && !isJwtValid(token)) {
             token = null;
         }
 
-        if (!token) {
-            const { token: newToken } = await API.getJwt();
-            token = newToken;
-            useConversationStore.getState().setConversation({ ...useConversationStore.getState().conversation, token });
-        }
+        if (!token && !conversationId) {
+            const { token: newToken, conversationId: newConversationId } = await API.newConversations();
 
-        if (!conversationId) {
-            conversationId = await API.fetchConversationId(token);
+            token = newToken;
+            conversationId = newConversationId;
+
             useConversationStore.getState().setConversation({
-                id: conversationId,
+                id: newConversationId,
                 title: 'Nuova chat',
                 store: '',
                 token,
             });
+        } else if (!token) {
+            const { token: newToken } = await API.resumeConversations(conversationId);
+            useConversationStore.getState().setConversation({ token: newToken });
+
+            token = newToken;
         }
 
         const key = Date.now();

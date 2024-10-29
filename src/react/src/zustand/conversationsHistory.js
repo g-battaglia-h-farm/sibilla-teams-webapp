@@ -13,6 +13,7 @@ const useConversationHistoryStore = create(
                             ...state.conversationHistory,
                             {
                                 id: conversation.id,
+                                token: conversation.token,
                                 title: conversation.title,
                                 store: conversation.store,
                             },

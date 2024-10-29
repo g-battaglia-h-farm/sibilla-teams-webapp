@@ -1,7 +1,7 @@
 export default function MenuIcon() {
     return (
         <svg
-            class="css-110 ___12fm75w f1w7gpdv fez10in fg4l7m0"
+            className="css-110 ___12fm75w f1w7gpdv fez10in fg4l7m0"
             fill="currentColor"
             aria-hidden="true"
             width="20"

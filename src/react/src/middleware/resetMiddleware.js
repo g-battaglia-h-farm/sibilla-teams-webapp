@@ -6,7 +6,6 @@ const resetMiddleware =
     ({ dispatch }) =>
     (next) =>
     (action) => {
-
         switch (action.type) {
             case 'WEB_CHAT/SEND_MESSAGE': {
                 const { text } = action.payload;
@@ -19,6 +18,14 @@ const resetMiddleware =
                             text: text.trim(),
                         },
                     });
+                    return;
+                }
+
+                if (text.startsWith('/force-reset')) {
+                    storeCurrentConversation();
+                    useConversationStore.getState().removeConversation();
+                    initConversation();
+                    console.info('QUIT_COMPLETED');
                     return;
                 }
 

@@ -8,6 +8,7 @@ import storeCurrentConversation from '../zustand/utils/storeCurrentConversation'
 import ThemeToggle from './ThemeToggle';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
+import API from '../API';
 
 function WebChat() {
     const { session, initConversation } = useInitConversation();
@@ -29,13 +30,19 @@ function WebChat() {
         sendMessage('/reset');
     }
 
-    function resumeConversation(conversationId) {
+    async function resumeConversation(conversationId) {
         storeCurrentConversation();
 
         const foundConversation = oldConversations.find((oldConversation) => oldConversation.id === conversationId);
+        if (!foundConversation) {
+            return;
+        }
+
+        const { token } = await API.resumeConversations(conversationId);
 
         setConversation({
             id: conversationId,
+            token: token,
             title: 'Nuova chat',
             store: foundConversation.store,
         });

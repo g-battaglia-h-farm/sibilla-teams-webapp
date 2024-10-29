@@ -14,11 +14,16 @@ const useConversationStore = create(
                 },
                 setConversation: (conversation) => {
                     set({
-                        conversation: { id: conversation.id, title: conversation.title, store: conversation.store, token: conversation.token },
+                        conversation: {
+                            id: conversation.id,
+                            title: conversation.title,
+                            store: conversation.store,
+                            token: conversation.token,
+                        },
                     });
                 },
                 setConversationStore: (store) => set({ conversation: { ...get().conversation, store } }),
-                removeConversation: () => set({ conversation: { id: null, title: '', store: '{}' } }),
+                removeConversation: () => set({ conversation: { id: '', title: '', store: '{}', token: null } }),
             }),
             {
                 name: 'conversation-storage',

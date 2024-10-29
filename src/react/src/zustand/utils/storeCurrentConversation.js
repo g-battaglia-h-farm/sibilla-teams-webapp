@@ -44,6 +44,7 @@ export default function storeCurrentConversation() {
     } else {
         useConversationHistoryStore.getState().addConversation({
             id: conversation.id,
+            token: conversation.token,
             title: parsedStore.activities[0].text,
             store: conversation.store,
         });
