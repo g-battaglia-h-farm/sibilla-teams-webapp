@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactWebChat from 'botframework-webchat';
 import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
@@ -8,6 +8,8 @@ import storeCurrentConversation from '../zustand/utils/storeCurrentConversation'
 import ThemeToggle from './ThemeToggle';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
+import useUserStore from '../zustand/user';
+import { v4 as uuidv4 } from 'uuid';
 import API from '../API';
 
 function WebChat() {
@@ -15,7 +17,9 @@ function WebChat() {
     const [oldConversations, setOldConversations] = useState([]);
 
     const { setConversation, setConversationStore } = useConversationStore();
-    const conversation = useConversationStore((state) => state.conversation);
+
+    const setUser = useUserStore((state) => state.setUser);
+    const user = useUserStore((state) => state.user);
 
     function sendMessage(message) {
         if (session?.store) {
@@ -81,7 +85,7 @@ function WebChat() {
         };
 
         initializeSession();
-    }, [session, initConversation]);
+    }, [session, initConversation, setConversationStore]);
 
     useEffect(() => {
         const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
@@ -115,6 +119,19 @@ function WebChat() {
         };
     }, []);
 
+    useEffect(() => {
+        console.log('User:', user);
+        if (!user.id) {
+            console.log('Creating new user');
+            const newUser = {
+                id: uuidv4(),
+                name: 'Guest',
+            };
+            setUser(newUser);
+        }
+        console.log('User:', user.id);
+    }, [user.id, setUser]);
+
     return (
         <div className="main-container">
             <div className="webchat-container">
@@ -141,6 +158,8 @@ function WebChat() {
                                 directLine={session.directLine}
                                 key={session.key}
                                 store={session.store}
+                                userID={user.id}
+                                username={user.name}
                                 styleOptions={{
                                     rootHeight: '100%',
                                     backgroundColor: 'var(--webchat-bg)',

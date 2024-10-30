@@ -10,11 +10,11 @@ const useUserStore = create(
                     id: '',
                     name: '',
                 },
-                setUser: (user) => {
+                setUser: (newUser) => {
                     set({
                         user: {
-                            id: user.id,
-                            name: user.name,
+                            id: newUser.id,
+                            name: newUser.name,
                         },
                     });
                 },
@@ -23,8 +23,8 @@ const useUserStore = create(
                 setUserId: (id) => set({ user: { ...get().user, id } }),
             }),
             {
-                name: 'conversation-storage',
-                getStorage: () => sessionStorage,
+                name: 'user-storage',
+                getStorage: () => localStorage,
             },
         ),
     ),
