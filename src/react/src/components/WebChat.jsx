@@ -120,7 +120,6 @@ function WebChat() {
     }, []);
 
     useEffect(() => {
-        console.log('User:', user);
         if (!user.id) {
             console.log('Creating new user');
             const newUser = {
@@ -129,8 +128,7 @@ function WebChat() {
             };
             setUser(newUser);
         }
-        console.log('User:', user.id);
-    }, [user.id, setUser]);
+    });
 
     return (
         <div className="main-container">
