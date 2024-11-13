@@ -18,15 +18,15 @@ const resetMiddleware =
                             text: text.trim(),
                         },
                     });
-                    return;
+                    break;
                 }
 
-                if (text.startsWith('/force-reset')) {
+                if (text.startsWith('/fr')) {
                     storeCurrentConversation();
                     useConversationStore.getState().removeConversation();
                     initConversation();
                     console.info('QUIT_COMPLETED');
-                    return;
+                    break;
                 }
 
                 return next(action);
@@ -39,8 +39,9 @@ const resetMiddleware =
                     useConversationStore.getState().removeConversation();
                     initConversation();
                     console.info('QUIT_COMPLETED');
-                    return;
+                    break;
                 }
+                return next(action);
             }
 
             default:
@@ -49,3 +50,4 @@ const resetMiddleware =
     };
 
 export default resetMiddleware;
+

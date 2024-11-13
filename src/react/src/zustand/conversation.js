@@ -10,7 +10,7 @@ const useConversationStore = create(
                     id: '',
                     title: '',
                     token: '',
-                    store: '{}',
+                    store: {},
                 },
                 setConversation: (conversation) => {
                     set({

@@ -39,6 +39,28 @@ const API = {
 
         return res.json();
     },
+
+    saveHistory: async (userId, conversationId, store) => {
+        await fetch(BASE_URL + '/api/save', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId,
+                conversationId,
+                store,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    },
+
+    loadHistory: async (userId) => {
+        const res = await fetch(BASE_URL + '/api/load?userId=' + userId, {
+            method: 'GET',
+        });
+
+        return res.json();
+    },
 };
 
 export default API;

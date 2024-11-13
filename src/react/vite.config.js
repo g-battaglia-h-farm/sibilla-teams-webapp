@@ -4,7 +4,8 @@ import removeDotSlashPlugin from './plugins/remove-dot-slash-vite-plugin';
 
 /* Endpoint API */
 const productionApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
-const localApiEndpoint = 'http://localhost:3978';
+// const localApiEndpoint = 'http://localhost:3978';
+const localApiEndpoint = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
 const testApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
 
 /**

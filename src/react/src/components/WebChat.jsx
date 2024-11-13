@@ -91,7 +91,7 @@ function WebChat() {
         const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
 
         setOldConversations(conversationStorage);
-    }, [session]);
+    }, [session, user.id]);
 
     useEffect(() => {
         // Check if we are in desktop mode
