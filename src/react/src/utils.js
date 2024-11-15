@@ -16,4 +16,15 @@ function isJwtValid(token) {
     }
 }
 
-export default isJwtValid;
+function query_parameter_with_default(name, default_value) {
+    return (
+        decodeURIComponent(
+            (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(
+                /\+/g,
+                '%20',
+            ),
+        ) || default_value
+    );
+}
+
+export { isJwtValid, query_parameter_with_default };

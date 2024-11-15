@@ -4,7 +4,7 @@ import { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 import resetMiddleware from '../middleware/resetMiddleware';
 import API from '../API';
 import useConversationStore from '../zustand/conversation';
-import isJwtValid from '../utils';
+import { isJwtValid } from '../utils';
 
 const DOMAIN = 'https://europe.webchat.botframework.com/v3/directline';
 

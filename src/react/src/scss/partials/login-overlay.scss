@@ -1,0 +1,11 @@
+// LoginOverya.scss
+.login-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+}

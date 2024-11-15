@@ -61,6 +61,29 @@ const API = {
 
         return res.json();
     },
+
+    login: async (token) => {
+        const res = await fetch(BASE_URL + '/api/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                token,
+            }),
+        });
+
+        return res.json();
+    },
+
+    obtain_login_code: async (code, challengeCode) => {
+        const res = await fetch(BASE_URL + '/api/obtain-login-code', {
+            method: 'POST',
+            body: JSON.stringify({
+                code,
+                challenge_code: challengeCode,
+            }),
+        });
+
+        return res.json();
+    },
 };
 
 export default API;

@@ -6,6 +6,7 @@ import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import ThemeToggle from './ThemeToggle';
+import LoginOverlay from './LoginOverlay';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
 import useUserStore from '../zustand/user';
@@ -132,6 +133,7 @@ function WebChat() {
 
     return (
         <div className="main-container">
+            <LoginOverlay />
             <div className="webchat-container">
                 <div className="header">
                     <ThemeToggle />

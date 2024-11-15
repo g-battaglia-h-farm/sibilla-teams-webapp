@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --port 8400",
         "build": "vite build",
         "test": "vitest",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx"

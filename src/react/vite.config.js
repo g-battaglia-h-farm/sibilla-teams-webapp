@@ -3,10 +3,10 @@ import react from '@vitejs/plugin-react';
 import removeDotSlashPlugin from './plugins/remove-dot-slash-vite-plugin';
 
 /* Endpoint API */
-const productionApiUrl = 'https://sibilla-bot-appservice-dev-eyh3b0ebfjbvb5de.northeurope-01.azurewebsites.net/api/messages';
-// const localApiEndpoint = 'http://localhost:3978';
-const localApiEndpoint = 'https://sibilla-bot-appservice-dev-eyh3b0ebfjbvb5de.northeurope-01.azurewebsites.net/api/messages';
-const testApiUrl = 'https://sibilla-bot-appservice-dev-eyh3b0ebfjbvb5de.northeurope-01.azurewebsites.net/api/messages';
+const productionApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
+const localApiEndpoint = 'http://localhost:3978';
+// const localApiEndpoint = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
+const testApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
 
 /**
  * La funzione ritorna l'endpoint'dell'API in base alla modalità in cui
