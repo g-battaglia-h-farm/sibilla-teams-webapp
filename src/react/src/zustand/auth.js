@@ -7,7 +7,9 @@ const useAuthStore = create(
         persist(
             (set) => ({
                 token: null,
+                codeChallenge: null,
                 setToken: (token) => set({ token }),
+                setCodeChallenge: (codeChallenge) => set({ codeChallenge }),
             }),
             {
                 name: 'auth-storage',
