@@ -78,7 +78,7 @@ const API = {
             method: 'POST',
             body: JSON.stringify({
                 code,
-                challenge_code: challengeCode,
+                code_challenge: challengeCode,
             }),
         });
 
