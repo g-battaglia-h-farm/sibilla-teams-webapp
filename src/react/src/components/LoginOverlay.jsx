@@ -20,24 +20,23 @@ const LoginOverlay = () => {
                 } else {
                     console.log('Login failed, redirecting to', response.link);
                     window.location.href = response.link;
-                    return;
                 }
             };
 
             checkLogin();
+        } else {
+            const obtainLoginCodeResponse = async () => {
+                const response = await API.obtain_login_code(code, state);
+                if (response.success) {
+                    console.log('Login successful');
+                    useAuthStore.getState().setToken(response.token);
+                } else {
+                    console.log('Login failed');
+                }
+            };
+
+            obtainLoginCodeResponse();
         }
-
-        const obtainLoginCodeResponse = async () => {
-            const response = await API.obtain_login_code(code, state);
-            if (response.success) {
-                console.log('Login successful');
-                useAuthStore.getState().setToken(response.token);
-            } else {
-                console.log('Login failed');
-            }
-        };
-
-        obtainLoginCodeResponse();
     }, []);
 
     return <div></div>;
