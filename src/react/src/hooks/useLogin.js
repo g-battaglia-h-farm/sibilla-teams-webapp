@@ -1,22 +1,21 @@
-// LoginOverya.jsx
 import { useEffect } from 'react';
 import useAuthStore from '../zustand/auth';
 import API from '../API';
 import { query_parameter_with_default, isJwtValid } from '../utils';
 
-const LoginOverlay = () => {
-    const token = useAuthStore((state) => state.token);
+const useLogin = () => {
+    const authToken = useAuthStore((state) => state.token);
     const codeChallenge = useAuthStore((state) => state.codeChallenge);
 
     useEffect(() => {
         const code = query_parameter_with_default('code', '');
-        const validJwt = isJwtValid(token);
+        const validJwt = isJwtValid(authToken);
 
         if (!code && !validJwt) {
             const checkLogin = async () => {
                 let response;
                 try {
-                    response = await API.login(token);
+                    response = await API.login(authToken);
                 } catch (error) {
                     console.log('Error checking login:', error);
                     return;
@@ -27,13 +26,13 @@ const LoginOverlay = () => {
                 } else {
                     // Set code challenge for later use
                     useAuthStore.getState().setCodeChallenge(response.code_challenge);
-                    console.log('Login failed, redirecting to', response.link);
+                    console.log('Login failed, redirecting to login page');
                     window.location.href = response.link;
                 }
             };
 
             checkLogin();
-        } else if (code && codeChallenge) {
+        } else if (code && codeChallenge && !validJwt) {
             const obtainLoginCodeResponse = async () => {
                 const response = await API.obtain_login_code(code, codeChallenge);
                 if (response.access_token) {
@@ -45,10 +44,15 @@ const LoginOverlay = () => {
             };
 
             obtainLoginCodeResponse();
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+
+            params.delete('code');
+            params.delete('code_challenge');
+
+            window.history.replaceState({}, document.title, `${url.pathname}?${params.toString()}`);
         }
     }, []);
-
-    return <div></div>;
 };
 
-export default LoginOverlay;
+export default useLogin;

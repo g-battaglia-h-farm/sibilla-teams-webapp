@@ -6,10 +6,11 @@ import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import ThemeToggle from './ThemeToggle';
-import LoginOverlay from './LoginOverlay';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
 import useUserStore from '../zustand/user';
+import useAuthStore from '../zustand/auth';
+import useLogin from '../hooks/useLogin';
 import { v4 as uuidv4 } from 'uuid';
 import API from '../API';
 
@@ -21,6 +22,7 @@ function WebChat() {
 
     const setUser = useUserStore((state) => state.setUser);
     const user = useUserStore((state) => state.user);
+    const authToken = useAuthStore((state) => state.token);
 
     function sendMessage(message) {
         if (session?.store) {
@@ -43,7 +45,7 @@ function WebChat() {
             return;
         }
 
-        const { token } = await API.resumeConversations(conversationId);
+        const { token } = await API.resumeConversations(conversationId, authToken);
 
         setConversation({
             id: conversationId,
@@ -67,6 +69,8 @@ function WebChat() {
     function closeSidebar() {
         document.body.classList.remove('sidebar-open');
     }
+
+    useLogin();
 
     useEffect(() => {
         const initializeSession = async () => {
@@ -133,11 +137,9 @@ function WebChat() {
 
     return (
         <div className="main-container">
-            <LoginOverlay />
             <div className="webchat-container">
                 <div className="header">
                     <ThemeToggle />
-
                     <button className="header-btn" onClick={sendResetMessage}>
                         Nuova chat
                         <NewChatIcon />
@@ -149,6 +151,18 @@ function WebChat() {
                     <button className="menu close" onClick={closeSidebar}>
                         <MenuCloseIcon />
                     </button>
+                    {/*
+                    <button
+                        className="header-btn"
+                        onClick={() => {
+                            window.sessionStorage.clear();
+                            window.localStorage.clear();
+                            window.location.reload();
+                        }}
+                    >
+                        Logout
+                    </button>
+                    */}
                 </div>
                 <div className="webchat-content">
                     {!!session.directLine && !!session.store && (
@@ -185,7 +199,7 @@ function WebChat() {
                             <button
                                 className="sidebar-btn"
                                 key={oldConversation.id}
-                                onClick={() => resumeConversation(oldConversation.id)}
+                                onClick={() => resumeConversation(oldConversation.id, authToken)}
                             >
                                 {oldConversation?.title?.substring(0, 40) + ' ...'}
                             </button>
