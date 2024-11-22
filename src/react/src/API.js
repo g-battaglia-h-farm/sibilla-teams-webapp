@@ -66,7 +66,7 @@ const API = {
         const res = await fetch(BASE_URL + '/api/login', {
             method: 'POST',
             body: JSON.stringify({
-                token,
+                jwt: token,
             }),
         });
 
