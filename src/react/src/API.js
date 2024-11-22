@@ -17,9 +17,13 @@ const API = {
      *
      * @returns {Promise<{token: string}>}
      */
-    newConversations: async () => {
+    newConversations: async (jwt) => {
         const res = await fetch(BASE_URL + '/api/new-conversation', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`,
+            },
         });
 
         return res.json();
@@ -32,9 +36,12 @@ const API = {
      * @param {string} message
      * @returns {Promise<{token: string}>}
      */
-    resumeConversations: async (conversationId) => {
+    resumeConversations: async (conversationId, jwt) => {
         const res = await fetch(BASE_URL + '/api/resume-conversation?conversationId=' + conversationId, {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
         });
 
         return res.json();
