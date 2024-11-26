@@ -66,12 +66,8 @@ const useLogin = () => {
 
             obtainLoginCodeResponse();
             const url = new URL(window.location.href);
-            const params = new URLSearchParams(url.search);
 
-            params.delete('code');
-            params.delete('code_challenge');
-
-            window.history.replaceState({}, document.title, `${url.pathname}?${params.toString()}`);
+            window.history.replaceState({}, document.title, url.pathname);
         }
     }, []);
 };

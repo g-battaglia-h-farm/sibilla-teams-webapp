@@ -47,7 +47,6 @@ const mainMiddleware =
                 return next(action);
             }
 
-            // Stop conversazione dopo il feedback
             case 'DIRECT_LINE/INCOMING_ACTIVITY': {
                 if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_COMPLETED') {
                     storeCurrentConversation();
@@ -55,7 +54,14 @@ const mainMiddleware =
                     initConversation();
                     console.info('QUIT_COMPLETED');
                     break;
+
+                } else if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_SIMPLE_COMPLETED') {
+                    useConversationStore.getState().removeConversation();
+                    initConversation();
+                    console.info('QUIT_COMPLETED');
+                    break;
                 }
+
                 return next(action);
             }
 

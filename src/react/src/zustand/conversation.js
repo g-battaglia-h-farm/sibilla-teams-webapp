@@ -23,7 +23,7 @@ const useConversationStore = create(
                     });
                 },
                 setConversationStore: (store) => set({ conversation: { ...get().conversation, store } }),
-                removeConversation: () => set({ conversation: { id: '', title: '', store: '{}', token: null } }),
+                removeConversation: () => set({ conversation: { id: '', title: '', store: {}, token: null } }),
             }),
             {
                 name: 'conversation-storage',

@@ -74,7 +74,7 @@ function useInitConversation() {
             useConversationStore.getState().setConversation({
                 id: newConversationId,
                 title: 'Nuova chat',
-                store: '',
+                store: {},
                 token,
             });
         } else if (!token) {
