@@ -21,6 +21,9 @@ const useLogin = () => {
                     response = await API.login(authToken);
                 } catch (error) {
                     console.log('Error checking login:', error);
+                    setError({
+                        message: 'Si è verificato un errore durante il login. Si prega di riprovare più tardi.',
+                    });
                     return;
                 }
 
