@@ -1,8 +1,9 @@
-@import 'partials/base.scss';
-@import 'partials/sidebar.scss';
-@import 'partials/webchat.scss';
-@import 'partials/header.scss';
-@import 'partials/theme-toggle.scss';
-@import 'partials/login-overlay.scss';
+@use 'partials/base.scss';
+@use 'partials/sidebar.scss';
+@use 'partials/webchat.scss';
+@use 'partials/error-overlay.scss';
+@use 'partials/header.scss';
+@use 'partials/theme-toggle.scss';
+@use 'partials/login-overlay.scss';
 
 

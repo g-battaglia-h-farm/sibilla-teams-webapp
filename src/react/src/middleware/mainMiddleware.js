@@ -1,7 +1,7 @@
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import useConversationStore from '../zustand/conversation';
 
-const resetMiddleware =
+const mainMiddleware =
     (initConversation) =>
     ({ dispatch }) =>
     (next) =>
@@ -18,6 +18,21 @@ const resetMiddleware =
                             text: text.trim(),
                         },
                     });
+                    break;
+                }
+
+                if (text.startsWith('/reset-simple')) {
+                    dispatch({
+                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
+                        payload: {
+                            ...action.payload,
+                            text: text.trim(),
+                        },
+                    });
+                    storeCurrentConversation();
+                    useConversationStore.getState().removeConversation();
+                    initConversation();
+                    console.info('QUIT_COMPLETED');
                     break;
                 }
 
@@ -49,5 +64,4 @@ const resetMiddleware =
         }
     };
 
-export default resetMiddleware;
-
+export default mainMiddleware;

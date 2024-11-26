@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import useAuthStore from '../zustand/auth';
+import useErrorStore from '../zustand/errorStore';
 import API from '../API';
 import { query_parameter_with_default, isJwtValid } from '../utils';
 
 const useLogin = () => {
     const authToken = useAuthStore((state) => state.token);
     const codeChallenge = useAuthStore((state) => state.codeChallenge);
+
+    const setError = useErrorStore((state) => state.setError);
 
     useEffect(() => {
         const code = query_parameter_with_default('code', '');
@@ -23,8 +26,13 @@ const useLogin = () => {
 
                 if (response.success && response.link !== null) {
                     console.log('Login successful');
+                } else if (response.error) {
+                    console.error('Error checking login:', response.error);
+                    setError({
+                        message:
+                            'Si è verificato un errore durante il login.  Non si è autorizzati a visualizzare questa pagina.',
+                    });
                 } else {
-                    // Set code challenge for later use
                     useAuthStore.getState().setCodeChallenge(response.code_challenge);
                     console.log('Login failed, redirecting to login page');
                     window.location.href = response.link;
@@ -34,12 +42,25 @@ const useLogin = () => {
             checkLogin();
         } else if (code && codeChallenge && !validJwt) {
             const obtainLoginCodeResponse = async () => {
-                const response = await API.obtain_login_code(code, codeChallenge);
+                let response;
+                try {
+                    response = await API.obtainLoginCode(code, codeChallenge);
+                } catch (error) {
+                    console.log('Error obtaining login code:', error);
+                    setError({
+                        message: 'Si è verificato un errore durante il login. Si prega di riprovare più tardi.',
+                    });
+                    return;
+                }
+
                 if (response.access_token) {
                     console.log('Login successful');
                     useAuthStore.getState().setToken(response.access_token);
                 } else {
                     console.log('Login failed');
+                    setError({
+                        message: "L'utente non è autorizzato a visualizzare questa pagina.",
+                    });
                 }
             };
 

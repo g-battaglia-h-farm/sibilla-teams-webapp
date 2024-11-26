@@ -1,117 +1,117 @@
-// Webchat styles
+.main-container {
+    .webchat-container {
+        height: 100dvh;
+        width: 100%;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        position: relative;
 
-.webchat-container {
-    height: 100dvh;
-    width: 100%;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    position: relative;
-}
+        .webchat-content {
+            width: 100%;
+            height: calc(100dvh - var(--header-height));
+            display: flex;
 
-.webchat-content {
-    width: 100%;
-    height: calc(100dvh - var(--header-height));
-    display: flex;
-}
+            .webchat__icon-button {
+                border-radius: 16px !important;
 
-.webchat__icon-button {
-    border-radius: 16px !important;
+                html[data-theme='dark'] & {
+                    background-color: var(--gray-750) !important;
+                }
 
-    html[data-theme='dark'] & {
-        background-color: var(--gray-750) !important;
-    }
+                &:hover {
+                    background-color: transparent !important;
+                    background: transparent !important;
+                    cursor: pointer !important;
+                }
+            }
 
-    &:hover {
-        background-color: transparent !important;
-        background: transparent !important;
-        cursor: pointer !important;
-    }
-}
+            .webchat__icon-button__shade {
+                border-radius: 16px !important;
 
-.webchat__icon-button__shade {
-    border-radius: 16px !important;
+                html[data-theme='dark'] & {
+                    background-color: var(--gray-750) !important;
+                }
 
-    html[data-theme='dark'] & {
-        background-color: var(--gray-750) !important;
-    }
+                &:hover {
+                    background-color: transparent !important;
+                    background: transparent !important;
+                    cursor: pointer !important;
+                }
+            }
 
-    &:hover {
-        background-color: transparent !important;
-        background: transparent !important;
-        cursor: pointer !important;
-    }
-}
+            .webchat__upload-button {
+                border-radius: 16px !important;
+                color: var(--white) !important;
 
-.webchat__upload-button {
-    border-radius: 16px !important;
-    color: var(--white) !important;
+                html[data-theme='dark'] {
+                    background-color: var(--gray-750) !important;
+                }
 
-    html[data-theme='dark'] {
-        background-color: var(--gray-750) !important;
-    }
+                &:hover {
+                    html[data-theme='dark'] & {
+                        background-color: var(--gray-750) !important;
+                    }
+                }
+            }
 
-    &:hover {
-        html[data-theme='dark'] & {
-            background-color: var(--gray-750) !important;
-        }
-    }
-}
+            .webchat__bubble {
+                background-color: var(--gray-950) !important;
 
-.webchat__bubble {
-    background-color: var(--gray-950) !important;
+                html[data-theme='dark'] & {
+                    background-color: var(--gray-800) !important;
+                }
 
-    html[data-theme='dark'] & {
-        background-color: var(--gray-800) !important;
-    }
+                .webchat__text-content {
+                    color: var(--white) !important;
+                    border: none !important;
+                    border-radius: 16px !important;
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
 
-    .webchat__text-content {
-        color: var(--white) !important;
-        border: none !important;
-        border-radius: 16px !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+                    html[data-theme='dark'] & {
+                        background-color: var(--gray-750) !important;
+                    }
+                }
+            }
 
-        html[data-theme='dark'] & {
-            background-color: var(--gray-750) !important;
-        }
-    }
-}
+            .webchat__bubble__content {
+                border: none !important;
+                border-radius: 16px !important;
+                background-color: var(--gray-800) !important;
 
-.webchat__bubble__content {
-    border: none !important;
-    border-radius: 16px !important;
-    background-color: var(--gray-800) !important;
+                html[data-theme='dark'] & {
+                    background-color: var(--gray-800) !important;
+                }
+            }
 
-    html[data-theme='dark'] & {
-        background-color: var(--gray-800) !important;
-    }
-}
+            .webchat__send-box {
+                padding: 2rem !important;
+                background-color: var(--gray-950) !important;
 
-.webchat__send-box {
-    padding: 2rem !important;
-    background-color: var(--gray-950) !important;
+                html[data-theme='dark'] & {
+                    background-color: var(--gray-800) !important;
+                }
 
-    html[data-theme='dark'] & {
-        background-color: var(--gray-800) !important;
-    }
+                .webchat__send-box__main {
+                    border-radius: 16px !important;
+                    border: none !important;
+                    color: var(--white) !important;
+                    border: 1px solid var(--gray-800) !important;
 
-    .webchat__send-box__main {
-        border-radius: 16px !important;
-        border: none !important;
-        color: var(--white) !important;
-        border: 1px solid var(--gray-800) !important;
+                    html[data-theme='dark'] & {
+                        background-color: var(--gray-750) !important;
+                    }
 
-        html[data-theme='dark'] & {
-            background-color: var(--gray-750) !important;
-        }
+                    .webchat__send-box-text-box__input {
+                        border: none !important;
+                        color: var(--white) !important;
 
-        .webchat__send-box-text-box__input {
-            border: none !important;
-            color: var(--white) !important;
-
-            html[data-theme='dark'] & {
-                background-color: var(--gray-750) !important;
+                        html[data-theme='dark'] & {
+                            background-color: var(--gray-750) !important;
+                        }
+                    }
+                }
             }
         }
     }

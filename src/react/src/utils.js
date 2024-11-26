@@ -11,7 +11,6 @@ function isJwtValid(token) {
 
         return true;
     } catch (error) {
-        console.info('Invalid JWT:', error);
         return false;
     }
 }

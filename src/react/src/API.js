@@ -80,7 +80,7 @@ const API = {
         return res.json();
     },
 
-    obtain_login_code: async (code, challengeCode) => {
+    obtainLoginCode: async (code, challengeCode) => {
         const res = await fetch(BASE_URL + '/api/obtain-login-code', {
             method: 'POST',
             body: JSON.stringify({

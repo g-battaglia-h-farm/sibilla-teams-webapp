@@ -4,7 +4,9 @@ import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
 import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
+import ErrorOverlay from './ErrorOverlay';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
+import useErrorStore from '../zustand/errorStore';
 import ThemeToggle from './ThemeToggle';
 import useConversationStore from '../zustand/conversation';
 import useConversationHistoryStore from '../zustand/conversationsHistory';
@@ -18,11 +20,13 @@ function WebChat() {
     const { session, initConversation } = useInitConversation();
     const [oldConversations, setOldConversations] = useState([]);
 
+    /* Conversations Store */
     const { setConversation, setConversationStore } = useConversationStore();
-
     const setUser = useUserStore((state) => state.setUser);
     const user = useUserStore((state) => state.user);
     const authToken = useAuthStore((state) => state.token);
+
+    const setError = useErrorStore((state) => state.setError);
 
     function sendMessage(message) {
         if (session?.store) {
@@ -34,7 +38,7 @@ function WebChat() {
     }
 
     function sendResetMessage() {
-        sendMessage('/reset');
+        sendMessage('/reset-simple');
     }
 
     async function resumeConversation(conversationId) {
@@ -45,7 +49,18 @@ function WebChat() {
             return;
         }
 
-        const { token } = await API.resumeConversations(conversationId, authToken);
+        let token;
+        try {
+            console.log('QUI');
+            const jsonResponse = await API.resumeConversations(conversationId, authToken);
+            token = jsonResponse.token;
+        } catch (error) {
+            console.error('Error resuming conversation:', error);
+            setError({
+                message: 'Errore durante il ripristino della conversazione. Si prega di riprovare più tardi.',
+            });
+            return;
+        }
 
         setConversation({
             id: conversationId,
@@ -54,7 +69,6 @@ function WebChat() {
             store: foundConversation.store,
         });
 
-        // Check if we are in desktop mode
         if (window.innerWidth < 992) {
             closeSidebar();
         }
@@ -94,7 +108,6 @@ function WebChat() {
 
     useEffect(() => {
         const conversationStorage = useConversationHistoryStore.getState().conversationHistory;
-
         setOldConversations(conversationStorage);
     }, [session, user.id]);
 
@@ -137,6 +150,7 @@ function WebChat() {
 
     return (
         <div className="main-container">
+            <ErrorOverlay />
             <div className="webchat-container">
                 <div className="header">
                     <ThemeToggle />
@@ -179,6 +193,8 @@ function WebChat() {
                                     backgroundColor: 'var(--webchat-bg)',
                                     bubbleTextColor: 'var(--webchat-bubble-text-color)',
                                 }}
+                                locale="it-IT"
+                                text
                             />
                         </div>
                     )}

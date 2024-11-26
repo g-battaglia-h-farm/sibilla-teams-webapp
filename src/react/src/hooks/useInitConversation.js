@@ -1,15 +1,21 @@
+/* Librerie */
 import { useCallback, useState } from 'react';
 import { createDirectLine, createStoreWithOptions } from 'botframework-webchat';
 
-import resetMiddleware from '../middleware/resetMiddleware';
-import API from '../API';
+/* Store */
 import useConversationStore from '../zustand/conversation';
+import useErrorStore from '../zustand/errorStore';
 import useAuthStore from '../zustand/auth';
+
+/* Local */
+import mainMiddleware from '../middleware/mainMiddleware';
+import API from '../API';
 import { isJwtValid } from '../utils';
 
 const DOMAIN = 'https://europe.webchat.botframework.com/v3/directline';
 
 function useInitConversation() {
+    const setError = useErrorStore((state) => state.setError);
     const authToken = useAuthStore.getState().token;
     const [session, setSession] = useState({
         directLine: null,
@@ -19,7 +25,7 @@ function useInitConversation() {
 
     const initConversation = useCallback(async () => {
         if (!authToken) {
-            console.error('No auth token found');
+            console.info('No auth token found. Restarting login process.');
             return;
         }
 
@@ -32,7 +38,35 @@ function useInitConversation() {
         }
 
         if (!token && !conversationId) {
-            const { token: newToken, conversationId: newConversationId } = await API.newConversations(authToken);
+            let jsonResponse;
+
+            try {
+                // const { token: newToken, conversationId: newConversationId } = await API.newConversations(authToken);
+                jsonResponse = await API.newConversations(authToken);
+            } catch (error) {
+                console.error('Error creating new conversation:', error);
+                setError({
+                    message: 'Errore durante la creazione di una nuova conversazione. Si prega di riprovare più tardi.',
+                });
+                return;
+            }
+
+            if (jsonResponse && jsonResponse?.error) {
+                if (json.response.error == 'INVALID_TOKEN' || json.response.error == 'MISSING_TOKEN') {
+                    setError({
+                        message: 'Sessione scaduta. Si prega di effettuare nuovamente il login.',
+                        actionText: 'OK',
+                        actionFunction: () => {
+                            localStorage.clear();
+                            sessionStorage.clear();
+                            window.location.reload();
+                        },
+                    });
+                }
+            }
+
+            const newToken = jsonResponse.token;
+            const newConversationId = jsonResponse.conversationId;
 
             token = newToken;
             conversationId = newConversationId;
@@ -44,10 +78,23 @@ function useInitConversation() {
                 token,
             });
         } else if (!token) {
-            const { token: newToken } = await API.resumeConversations(conversationId, authToken);
-            useConversationStore.getState().setConversation({ token: newToken });
-
-            token = newToken;
+            try {
+                const { token: newToken } = await API.resumeConversations(conversationId, authToken);
+                useConversationStore.getState().setConversation({ token: newToken });
+                token = newToken;
+            } catch (error) {
+                console.error('Error resuming conversation:', error);
+                setError({
+                    message: 'Errore durante il ripristino della conversazione.',
+                    actionText: 'Ricarica',
+                    actionFunction: () => {
+                        sessionStorage.clear();
+                        localStorage.clear();
+                        window.location.reload();
+                    },
+                });
+                return;
+            }
         }
 
         const key = Date.now();
@@ -59,7 +106,7 @@ function useInitConversation() {
                 conversationId: conversationId,
             }),
             key,
-            store: createStoreWithOptions({ devTools: true }, parsedStore, resetMiddleware(initConversation)),
+            store: createStoreWithOptions({ devTools: true }, parsedStore, mainMiddleware(initConversation)),
         });
     }, [authToken]);
 
