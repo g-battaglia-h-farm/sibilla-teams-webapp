@@ -2,10 +2,22 @@
     .webchat-container {
         height: 100dvh;
         width: 100%;
+        max-width: 1200px;
         display: flex;
         flex: 1;
         flex-direction: column;
         position: relative;
+        margin: 0 auto;
+
+        background-image: url('/img/bg-blue.webp');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+
+        .chat {
+            background-color: transparent;
+        }
 
         .webchat-content {
             width: 100%;

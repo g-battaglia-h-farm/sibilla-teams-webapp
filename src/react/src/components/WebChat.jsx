@@ -4,6 +4,7 @@ import useInitConversation from '../hooks/useInitConversation';
 import NewChatIcon from './icons/NewChatIcon';
 import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
+import ConversationHistorySidebar from './ConversationHistorySidebar';
 import ErrorOverlay from './ErrorOverlay';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import useErrorStore from '../zustand/errorStore';
@@ -155,9 +156,10 @@ function WebChat() {
                 <div className="header">
                     <ThemeToggle />
                     <button className="header-btn" onClick={sendResetMessage}>
-                        Nuova chat
                         <NewChatIcon />
+                        Nuova chat
                     </button>
+                    {/*
                     <button className="menu open" onClick={openSidebar}>
                         <MenuOpenIcon />
                     </button>
@@ -165,7 +167,7 @@ function WebChat() {
                     <button className="menu close" onClick={closeSidebar}>
                         <MenuCloseIcon />
                     </button>
-                    {/*
+
                     <button
                         className="header-btn"
                         onClick={() => {
@@ -200,28 +202,9 @@ function WebChat() {
                     )}
                 </div>
             </div>
-            <aside className="sidebar">
-                <div className="sidebar-header">
-                    <h2 className="sidebar-title">Conversazioni</h2>
-                    <div className="main-buttons">
-                        <button className="sidebar-btn" onClick={closeSidebar}>
-                            <MenuCloseIcon />
-                        </button>
-                    </div>
-                </div>
-                <div className="buttons">
-                    {!!oldConversations.length &&
-                        oldConversations.map((oldConversation) => (
-                            <button
-                                className="sidebar-btn"
-                                key={oldConversation.id}
-                                onClick={() => resumeConversation(oldConversation.id, authToken)}
-                            >
-                                {oldConversation?.title?.substring(0, 40) + ' ...'}
-                            </button>
-                        ))}
-                </div>
-            </aside>
+            {/* 
+            <ConversationHistorySidebar  oldConversations={oldConversations} closeSidebar={closeSidebar} resumeConversation={resumeConversation} authToken={authToken} />
+            */}
         </div>
     );
 }
