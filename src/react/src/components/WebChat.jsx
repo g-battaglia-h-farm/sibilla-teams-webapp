@@ -24,6 +24,8 @@ function WebChat() {
 
     /* Conversations Store */
     const { setConversation, setConversationStore } = useConversationStore();
+    const conversation = useConversationStore.getState().conversation;
+
     const setUser = useUserStore((state) => state.setUser);
     const user = useUserStore((state) => state.user);
     const authToken = useAuthStore((state) => state.token);
@@ -40,6 +42,10 @@ function WebChat() {
     }
 
     function sendResetMessage() {
+        if (!conversation.store.activities?.length) {
+            return;
+        }
+
         sendMessage('/reset-simple');
     }
 
