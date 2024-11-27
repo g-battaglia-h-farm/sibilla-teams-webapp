@@ -5,6 +5,7 @@ import NewChatIcon from './icons/NewChatIcon';
 import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
 import ConversationHistorySidebar from './ConversationHistorySidebar';
+import SplashScreen from './SplashScreen';
 import ErrorOverlay from './ErrorOverlay';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
 import useErrorStore from '../zustand/errorStore';
@@ -155,11 +156,21 @@ function WebChat() {
             <div className="webchat-container">
                 <div className="header">
                     <ThemeToggle />
+
                     <button className="header-btn" onClick={sendResetMessage}>
                         <NewChatIcon />
                         Nuova chat
                     </button>
                     {/*
+                    <button
+                        className="header-btn"
+                        style={{ position: 'relative', zIndex: 99999999 }}
+                        onClick={() => {
+                            document.body.classList.toggle('show-splash');
+                        }}
+                    >
+                        Show Splash
+                    </button>
                     <button className="menu open" onClick={openSidebar}>
                         <MenuOpenIcon />
                     </button>
@@ -183,6 +194,7 @@ function WebChat() {
                 <div className="webchat-content">
                     {!!session.directLine && !!session.store && (
                         <div className="container">
+                            <SplashScreen />
                             <ReactWebChat
                                 className="chat"
                                 directLine={session.directLine}

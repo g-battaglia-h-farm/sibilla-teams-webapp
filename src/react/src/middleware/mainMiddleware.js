@@ -10,17 +10,6 @@ const mainMiddleware =
             case 'WEB_CHAT/SEND_MESSAGE': {
                 const { text } = action.payload;
 
-                if (text.startsWith('/reset')) {
-                    dispatch({
-                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
-                        payload: {
-                            ...action.payload,
-                            text: text.trim(),
-                        },
-                    });
-                    break;
-                }
-
                 if (text.startsWith('/reset-simple')) {
                     dispatch({
                         type: 'WEB_CHAT/SEND_MESSAGE_BACK',
@@ -33,6 +22,17 @@ const mainMiddleware =
                     useConversationStore.getState().removeConversation();
                     initConversation();
                     console.info('QUIT_COMPLETED');
+                    break;
+                }
+
+                if (text.startsWith('/reset')) {
+                    dispatch({
+                        type: 'WEB_CHAT/SEND_MESSAGE_BACK',
+                        payload: {
+                            ...action.payload,
+                            text: text.trim(),
+                        },
+                    });
                     break;
                 }
 
@@ -54,11 +54,10 @@ const mainMiddleware =
                     initConversation();
                     console.info('QUIT_COMPLETED');
                     break;
-
                 } else if (action?.payload?.activity?.text === '__SYSTEM_MESSAGE__ QUIT_SIMPLE_COMPLETED') {
-                    useConversationStore.getState().removeConversation();
-                    initConversation();
-                    console.info('QUIT_COMPLETED');
+                    // useConversationStore.getState().removeConversation();
+                    // initConversation();
+                    // console.info('QUIT_COMPLETED');
                     break;
                 }
 

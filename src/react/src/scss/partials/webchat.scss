@@ -9,11 +9,25 @@
         position: relative;
         margin: 0 auto;
 
-        background-image: url('/img/bg-blue.webp');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-attachment: fixed;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -30%;
+            width: 100%;
+            height: 100%;
+            background-image: url('/img/bg-gray.webp');
+            background-size: contain; // Adjust the size of the background image
+            background-repeat: no-repeat;
+            background-position: center; // Center the background image
+            z-index: -1; // Ensure the background is behind the content
+            opacity: 1;
+            transition: opacity 0.25s linear;
+
+            body.show-splash & {
+                opacity: 0;
+            }
+        }
 
         .chat {
             background-color: transparent;
@@ -67,42 +81,64 @@
                 }
             }
 
-            .webchat__bubble {
-                background-color: var(--gray-950) !important;
+            /* Messaggi Utente/Bot */
+            article.webchat__basic-transcript__activity {
+                .webchat__basic-transcript__activity-body {
+                    .webchat__stacked-layout__main {
+                        margin: -0.5px;
 
-                html[data-theme='dark'] & {
-                    background-color: var(--gray-800) !important;
-                }
+                        .webchat__bubble {
+                            background-color: transparent !important;
 
-                .webchat__text-content {
-                    color: var(--white) !important;
-                    border: none !important;
-                    border-radius: 16px !important;
-                    padding-left: 1rem !important;
-                    padding-right: 1rem !important;
+                            .webchat__bubble__content {
+                                border: none !important;
+                                border-radius: 16px !important;
+                                background-color: var(--gray-800) !important;
+                                box-shadow: 0 0 0.625rem #0000001a !important;
+                                margin: 0.5rem !important;
 
-                    html[data-theme='dark'] & {
-                        background-color: var(--gray-750) !important;
+                                .webchat__text-content {
+                                    color: var(--white) !important;
+                                    border: none !important;
+                                    border-radius: 16px !important;
+                                    padding-left: 1rem !important;
+                                    padding-right: 1rem !important;
+
+                                    html[data-theme='dark'] & {
+                                        background-color: var(--gray-750) !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .webchat__stacked-layout--from-user {
+                        .webchat__stacked-layout__main {
+                            .webchat__bubble {
+                                .webchat__bubble__content {
+                                    box-shadow: none !important;
+
+                                    .webchat__text-content {
+                                        background-color: #e8ebfa !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .webchat__stacked-layout__status {
+                        margin: 0 0.5rem;
                     }
                 }
             }
 
-            .webchat__bubble__content {
-                border: none !important;
-                border-radius: 16px !important;
-                background-color: var(--gray-800) !important;
-
-                html[data-theme='dark'] & {
-                    background-color: var(--gray-800) !important;
-                }
-            }
-
+            /* Input testuale per invio messaggi */
             .webchat__send-box {
                 padding: 2rem !important;
-                background-color: var(--gray-950) !important;
+                background-color: transparent !important;
 
-                html[data-theme='dark'] & {
-                    background-color: var(--gray-800) !important;
+                body.show-splash & {
+                    z-index: 99999999999;
                 }
 
                 .webchat__send-box__main {
