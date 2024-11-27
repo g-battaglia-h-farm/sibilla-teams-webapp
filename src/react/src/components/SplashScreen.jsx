@@ -45,7 +45,7 @@ const SplashScreen = () => {
                 <div className="img-wrapper">
                     <img src="/img/bg-blue.webp" alt="Sibilla Logo" />
                 </div>
-                <h2>Ciao, Sono Sibilla</h2>
+                <h2>Ciao, sono Sibilla</h2>
                 <p>Come posso aiutarti oggi?</p>
             </div>
         </div>
