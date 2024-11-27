@@ -70,6 +70,11 @@ const useLogin = () => {
             obtainLoginCodeResponse();
             const url = new URL(window.location.href);
 
+            console.log('Removing code and state from URL');
+            window.history.replaceState({}, document.title, url.pathname);
+        } else {
+            console.log('Login successful');
+            const url = new URL(window.location.href);
             window.history.replaceState({}, document.title, url.pathname);
         }
     }, []);

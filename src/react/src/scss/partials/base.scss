@@ -104,6 +104,10 @@ button {
     background-color: var(--gray-950);
     width: 12px;
 
+    html[data-theme='dark'] & {
+        background-color: var(--gray-800);
+    }
+
     &-thumb {
         background-color: var(--gray-800);
         border: 1px solid var(--gray-750);

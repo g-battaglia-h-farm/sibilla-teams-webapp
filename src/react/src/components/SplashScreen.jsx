@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
+import useConversationStore from '../zustand/conversation';
 
 const SplashScreen = () => {
+    const conversation = useConversationStore((state) => state.conversation);
+
     useEffect(() => {
+        if (conversation.store.activities?.length) {
+            document.body.classList.remove('show-splash');
+            return;
+        }
+
         const observer = new MutationObserver(() => {
             const mainChatInput = document.querySelector('input.webchat__send-box-text-box__input');
 

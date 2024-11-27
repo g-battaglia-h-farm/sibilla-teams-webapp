@@ -84,42 +84,74 @@
             /* Messaggi Utente/Bot */
             article.webchat__basic-transcript__activity {
                 .webchat__basic-transcript__activity-body {
-                    .webchat__stacked-layout__main {
-                        margin: -0.5px;
+                    .webchat__stacked-layout {
+                        .webchat__stacked-layout__main {
+                            margin: -0.5px;
 
-                        .webchat__bubble {
-                            background-color: transparent !important;
+                            .webchat__stacked-layout__avatar-gutter {
+                                height: 20px;
+                                width: 15px;
+                                margin-top: 0.5rem;
+                                margin-right: -5px;
+                                background-image: url('/img/bg-blue.webp');
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                                border-radius: 16px;
+                            }
 
-                            .webchat__bubble__content {
-                                border: none !important;
-                                border-radius: 16px !important;
-                                background-color: var(--gray-800) !important;
-                                box-shadow: 0 0 0.625rem #0000001a !important;
-                                margin: 0.5rem !important;
+                            .webchat__bubble {
+                                background-color: transparent !important;
 
-                                .webchat__text-content {
-                                    color: var(--white) !important;
+                                .webchat__bubble__content {
                                     border: none !important;
                                     border-radius: 16px !important;
-                                    padding-left: 1rem !important;
-                                    padding-right: 1rem !important;
+                                    background-color: var(--gray-800) !important;
+                                    box-shadow: 0 0 0.625rem #0000001a !important;
+                                    margin: 0.5rem !important;
 
-                                    html[data-theme='dark'] & {
-                                        background-color: var(--gray-750) !important;
+                                    .webchat__text-content {
+                                        color: var(--white) !important;
+                                        border: none !important;
+                                        border-radius: 16px !important;
+                                        padding-left: 1rem !important;
+                                        padding-right: 1rem !important;
+
+                                        html[data-theme='dark'] & {
+                                            background-color: var(--gray-750) !important;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    .webchat__stacked-layout--from-user {
-                        .webchat__stacked-layout__main {
-                            .webchat__bubble {
-                                .webchat__bubble__content {
-                                    box-shadow: none !important;
+                        &.webchat__stacked-layout--from-user {
+                            .webchat__stacked-layout__main {
+                                .webchat__stacked-layout__avatar-gutter {
+                                    /*
+                                    background-image: url('/img/user-light.svg');
+                                    margin-top: .75rem;
+                                    margin-left: -5px;
+                                    margin-right: 0;
+                                    height: 15px;
+                                    width: 15px;
 
-                                    .webchat__text-content {
-                                        background-color: #e8ebfa !important;
+                                    html[data-theme='dark'] & {
+                                        background-image: url('/img/user-dark.svg');
+                                    }
+                                    */
+                                    display: none;
+                                }
+                                .webchat__bubble {
+                                    .webchat__bubble__content {
+                                        box-shadow: none !important;
+
+                                        .webchat__text-content {
+                                            background-color: #e8ebfa !important;
+
+                                            html[data-theme='dark'] & {
+                                                background-color: #2c2f33 !important;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -134,7 +166,7 @@
 
             /* Input testuale per invio messaggi */
             .webchat__send-box {
-                padding: 2rem !important;
+                padding: 1.5rem 0.5rem !important;
                 background-color: transparent !important;
 
                 body.show-splash & {

@@ -45,7 +45,7 @@ function WebChat() {
         if (!conversation.store.activities?.length) {
             return;
         }
-
+        document.body.classList.add('show-splash');
         sendMessage('/reset-simple');
     }
 
