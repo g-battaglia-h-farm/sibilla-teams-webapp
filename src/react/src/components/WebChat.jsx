@@ -5,6 +5,7 @@ import NewChatIcon from './icons/NewChatIcon';
 import MenuOpenIcon from './icons/MenuOpenIcon';
 import MenuCloseIcon from './icons/MenuCloseIcon';
 import ConversationHistorySidebar from './ConversationHistorySidebar';
+import ErrorBoundary from './ErrorBoundary';
 import SplashScreen from './SplashScreen';
 import ErrorOverlay from './ErrorOverlay';
 import storeCurrentConversation from '../zustand/utils/storeCurrentConversation';
@@ -46,6 +47,7 @@ function WebChat() {
             return;
         }
         document.body.classList.add('show-splash');
+        document.body.classList.remove('message-sending');
         sendMessage('/reset-simple');
     }
 
@@ -59,7 +61,6 @@ function WebChat() {
 
         let token;
         try {
-            console.log('QUI');
             const jsonResponse = await API.resumeConversations(conversationId, authToken);
             token = jsonResponse.token;
         } catch (error) {
@@ -157,17 +158,18 @@ function WebChat() {
     });
 
     return (
-        <div className="main-container">
-            <ErrorOverlay />
-            <div className="webchat-container">
-                <div className="header">
-                    <ThemeToggle />
+        <ErrorBoundary>
+            <div className="main-container">
+                <ErrorOverlay />
+                <div className="webchat-container">
+                    <div className="header">
+                        <ThemeToggle />
 
-                    <button className="header-btn" onClick={sendResetMessage}>
-                        <NewChatIcon />
-                        Nuova chat
-                    </button>
-                    {/*
+                        <button className="header-btn" onClick={sendResetMessage}>
+                            <NewChatIcon />
+                            Nuova chat
+                        </button>
+                        {/*
                     <button
                         className="header-btn"
                         style={{ position: 'relative', zIndex: 99999999 }}
@@ -196,34 +198,35 @@ function WebChat() {
                         Logout
                     </button>
                     */}
+                    </div>
+                    <div className="webchat-content">
+                        {!!session.directLine && !!session.store && (
+                            <div className="container">
+                                <SplashScreen />
+                                <ReactWebChat
+                                    className="chat"
+                                    directLine={session.directLine}
+                                    key={session.key}
+                                    store={session.store}
+                                    userID={user.id}
+                                    username={user.name}
+                                    styleOptions={{
+                                        rootHeight: '100%',
+                                        backgroundColor: 'var(--webchat-bg)',
+                                        bubbleTextColor: 'var(--webchat-bubble-text-color)',
+                                    }}
+                                    locale="it-IT"
+                                    text
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="webchat-content">
-                    {!!session.directLine && !!session.store && (
-                        <div className="container">
-                            <SplashScreen />
-                            <ReactWebChat
-                                className="chat"
-                                directLine={session.directLine}
-                                key={session.key}
-                                store={session.store}
-                                userID={user.id}
-                                username={user.name}
-                                styleOptions={{
-                                    rootHeight: '100%',
-                                    backgroundColor: 'var(--webchat-bg)',
-                                    bubbleTextColor: 'var(--webchat-bubble-text-color)',
-                                }}
-                                locale="it-IT"
-                                text
-                            />
-                        </div>
-                    )}
-                </div>
-            </div>
-            {/* 
+                {/* 
             <ConversationHistorySidebar  oldConversations={oldConversations} closeSidebar={closeSidebar} resumeConversation={resumeConversation} authToken={authToken} />
             */}
-        </div>
+            </div>
+        </ErrorBoundary>
     );
 }
 

@@ -44,6 +44,8 @@ const mainMiddleware =
                     break;
                 }
 
+                document.body.classList.add('message-sending');
+                document.body.classList.remove('show-splash');
                 return next(action);
             }
 
@@ -61,6 +63,11 @@ const mainMiddleware =
                     break;
                 }
 
+                return next(action);
+            }
+
+            case 'DIRECT_LINE/POST_ACTIVITY_FULFILLED': {
+                document.body.classList.remove('message-sending');
                 return next(action);
             }
 

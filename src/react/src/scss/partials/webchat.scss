@@ -168,9 +168,42 @@
             .webchat__send-box {
                 padding: 1.5rem 0.5rem !important;
                 background-color: transparent !important;
+                position: relative;
 
                 body.show-splash & {
                     z-index: 999999999;
+                }
+
+                body.message-sending & {
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: -4px;
+                        left: 0.75rem;
+                        width: 15px;
+                        height: 20px;
+                        background-image: url('/img/bg-blue.webp');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        border-radius: 16px;
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: -12px;
+                        left: 1.70rem;
+                        width: 35px;
+                        height: 35px;
+                        background-image: url('/img/dots-light.svg');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        border-radius: 16px;
+
+                        html[data-theme='dark'] & {
+                            background-image: url('/img/dots-dark.svg');
+                        }
+                    }
                 }
 
                 .webchat__send-box__main {
