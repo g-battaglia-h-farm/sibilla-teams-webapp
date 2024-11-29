@@ -119,6 +119,18 @@
                                         html[data-theme='dark'] & {
                                             background-color: var(--gray-750) !important;
                                         }
+
+                                        .webchat__text-content__markdown {
+                                            p:has( > span) {
+                                                margin-top: -14px;
+                                            }
+
+                                            span {
+                                                font-size: 11px;
+                                                line-height: 1.1;
+                                                color: var(--gray-500);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -192,7 +204,7 @@
                         content: '';
                         position: absolute;
                         top: -12px;
-                        left: 1.70rem;
+                        left: 1.7rem;
                         width: 35px;
                         height: 35px;
                         background-image: url('/img/dots-light.svg');
