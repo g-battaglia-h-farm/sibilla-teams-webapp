@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import removeDotSlashPlugin from './plugins/remove-dot-slash-vite-plugin';
 
 /* Endpoint API */
-const productionApiUrl = 'https://sibilla-bot-appservice-dev-eyh3b0ebfjbvb5de.northeurope-01.azurewebsites.net';
+const productionApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net/api/messages';
 const localApiEndpoint = 'http://localhost:3978';
 const testApiUrl       = 'https://sibilla-bot-appservice-dev-eyh3b0ebfjbvb5de.northeurope-01.azurewebsites.net';
 
