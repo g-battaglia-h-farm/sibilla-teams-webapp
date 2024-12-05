@@ -6,6 +6,7 @@
         "dev": "vite --port 8400",
         "build": "vite build",
         "test": "vitest",
+        "build:test": "vite build --mode test",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
     },
     "dependencies": {
