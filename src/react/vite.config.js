@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import removeDotSlashPlugin from './plugins/remove-dot-slash-vite-plugin';
+import replaceErrorPlugin from './plugins/replaceErrorPlugin';
+import { splitVendorChunkPlugin } from 'vite'
 
 /* Endpoint API */
 const productionApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
@@ -50,7 +52,7 @@ export default defineConfig(({ mode }) => {
         define: {
             __BASE_API_ENDPOINT__: JSON.stringify(getCurrentApiUrl(mode)),
         },
-        plugins: [react(), removeDotSlashPlugin()],
+        plugins: [react(), removeDotSlashPlugin(), replaceErrorPlugin()],
         base: './',
         build: {
             outDir: '../react-built/',
@@ -65,6 +67,13 @@ export default defineConfig(({ mode }) => {
                     },
                     chunkFileNames: 'chunks/[name].js',
                     entryFileNames: 'assets/[name].js',
+                    manualChunks: {
+                        react: ['react'],
+                        botframeworkDirectlinespeechSdk: ['botframework-directlinespeech-sdk'],
+                        botframeworkWebchat: ['botframework-webchat'],
+                        botframeworkWebchatCore: ['botframework-webchat-core'],
+                        botframeworkDirectlinejs: ['botframework-directlinejs'],
+                    },
                 },
             },
         },
