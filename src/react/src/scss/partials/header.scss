@@ -5,6 +5,8 @@
     gap: 0rem;
     height: var(--header-height);
     padding: 0 2rem;
+    position: relative;
+    z-index: 1000;
 
     body.sidebar-open & {
         justify-content: flex-end;
