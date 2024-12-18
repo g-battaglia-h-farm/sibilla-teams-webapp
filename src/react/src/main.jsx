@@ -13,3 +13,5 @@ window.console.error = (message, ...args) => {
 };
 
 createRoot(document.getElementById('root')).render(<WebChat />);
+
+

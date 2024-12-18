@@ -99,6 +99,10 @@ a:hover {
 button {
     color: var(--gray-50);
     cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
 }
 
 ::-webkit-scrollbar {
