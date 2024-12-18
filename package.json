@@ -7,6 +7,7 @@
     "private": true,
     "dependencies": {
         "eslint-plugin-react-refresh": "^0.4.14",
+        "markdown-it": "^14.1.0",
         "restify": "^11.1.0",
         "send": "^0.18.0"
     },

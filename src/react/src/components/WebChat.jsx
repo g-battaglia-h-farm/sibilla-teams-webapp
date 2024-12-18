@@ -18,6 +18,7 @@ import useAuthStore from '../zustand/auth';
 import useLogin from '../hooks/useLogin';
 import { v4 as uuidv4 } from 'uuid';
 import API from '../API';
+import markdownit from 'markdown-it';
 
 function WebChat() {
     const { session, initConversation } = useInitConversation();
@@ -217,6 +218,10 @@ function WebChat() {
                                     }}
                                     locale="it-IT"
                                     text
+                                    renderMarkdown={(markdown) => {
+                                        const md = markdownit({ html: true });
+                                        return md.render(markdown);
+                                    }}
                                 />
                             </div>
                         )}
