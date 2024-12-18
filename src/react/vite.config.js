@@ -73,6 +73,7 @@ export default defineConfig(({ mode }) => {
                         botframeworkWebchat: ['botframework-webchat'],
                         botframeworkWebchatCore: ['botframework-webchat-core'],
                         botframeworkDirectlinejs: ['botframework-directlinejs'],
+                        markdownIt: ['markdown-it'],
                     },
                 },
             },
