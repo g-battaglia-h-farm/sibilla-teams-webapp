@@ -9,7 +9,7 @@ function replaceErrorPlugin() {
                 const chunk = bundle[fileName];
                 if (chunk.type === 'chunk' && fileName.endsWith('.js')) {
                     // Sostituzione della stringa nel contenuto del file
-                    chunk.code = chunk.code.replace(/Impossibile connettersi\./g, 'Impossibile connettersi, prova a ricaricare la pagina! <br> Qualora il problema dovesse persistere, contatta il team tecnico.');
+                    chunk.code = chunk.code.replace(/Impossibile connettersi\./g, 'Impossibile connettersi, prova a ricaricare la pagina! Qualora il problema dovesse persistere, contatta il team tecnico.');
                 }
             }
         },
