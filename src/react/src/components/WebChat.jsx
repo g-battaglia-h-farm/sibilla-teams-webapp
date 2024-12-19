@@ -220,7 +220,17 @@ function WebChat() {
                                     text
                                     renderMarkdown={(markdown) => {
                                         const md = markdownit({ html: true });
-                                        return md.render(markdown);
+
+                                        // Regex per individuare gli URL
+                                        const urlRegex =
+                                            /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+
+                                        // Sostituisci gli URL con i link HTML corrispondenti
+                                        const processedMarkdown = markdown.replace(urlRegex, (url) => {
+                                            return /*HTML*/`<a href="${url}" class="reference-link" target="_blank" rel="noopener noreferrer">${url}</a>`;
+                                        });
+
+                                        return md.render(processedMarkdown);
                                     }}
                                 />
                             </div>

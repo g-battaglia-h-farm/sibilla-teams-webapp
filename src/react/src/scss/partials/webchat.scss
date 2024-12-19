@@ -121,11 +121,34 @@
                                         }
 
                                         .webchat__text-content__markdown {
-                                            p:has( > span) {
+                                            aside.references {
+                                                font-style: italic;
+                                                font-size: 12px;
+                                                line-height: 1.1;
+                                                color: var(--gray-500);
+                                                margin-bottom: 1.25rem;
+
+                                                a.reference-link {
+                                                    color: var(--blue-500);
+                                                    text-decoration: none;
+                                                    font-weight: 500;
+                                                    display: inline-block; // Ensure the element is treated as a block for ellipsis
+                                                    white-space: nowrap; // Prevent the text from wrapping to the next line
+                                                    overflow: hidden; // Hide the overflow text
+                                                    text-overflow: ellipsis; // Add ellipsis (...) to the overflow text
+                                                    max-width: 40ch; // Limit the width to approximately 30 characters
+
+                                                    &:hover {
+                                                        text-decoration: underline;
+                                                    }
+                                                }
+                                            }
+
+                                            p:has(> span.output-origin) {
                                                 margin-top: -14px;
                                             }
 
-                                            span {
+                                            span.output-origin {
                                                 font-size: 11px;
                                                 line-height: 1.1;
                                                 color: var(--gray-500);
