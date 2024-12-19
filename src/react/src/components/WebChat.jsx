@@ -18,7 +18,7 @@ import useAuthStore from '../zustand/auth';
 import useLogin from '../hooks/useLogin';
 import { v4 as uuidv4 } from 'uuid';
 import API from '../API';
-import markdownit from 'markdown-it';
+import { processMarkdown } from '../utils';
 
 function WebChat() {
     const { session, initConversation } = useInitConversation();
@@ -218,20 +218,7 @@ function WebChat() {
                                     }}
                                     locale="it-IT"
                                     text
-                                    renderMarkdown={(markdown) => {
-                                        const md = markdownit({ html: true });
-
-                                        // Regex per individuare gli URL
-                                        const urlRegex =
-                                            /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-
-                                        // Sostituisci gli URL con i link HTML corrispondenti
-                                        const processedMarkdown = markdown.replace(urlRegex, (url) => {
-                                            return /*HTML*/`<a href="${url}" class="reference-link" target="_blank" rel="noopener noreferrer">${url}</a>`;
-                                        });
-
-                                        return md.render(processedMarkdown);
-                                    }}
+                                    renderMarkdown={(markdown) => processMarkdown(markdown)}
                                 />
                             </div>
                         )}

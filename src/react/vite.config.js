@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import removeDotSlashPlugin from './plugins/remove-dot-slash-vite-plugin';
 import replaceErrorPlugin from './plugins/replaceErrorPlugin';
-import { splitVendorChunkPlugin } from 'vite'
 
 /* Endpoint API */
 const productionApiUrl = 'https://sibilla-bot-appservice-e5egc6dseagxc2gy.northeurope-01.azurewebsites.net';
