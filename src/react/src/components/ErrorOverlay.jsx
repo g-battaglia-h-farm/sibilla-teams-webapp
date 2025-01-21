@@ -10,7 +10,7 @@ const ErrorOverlay = () => {
         <div className="error-overlay">
             <div className="error-content">
                 <ErrorIcon className="error-icon" />
-                <h2>Errore</h2>
+                <h2>Ricarica la pagina per iniziare</h2>
                 <p>{error.message}</p>
 
                 {error.actionText && error.actionFunction && (
