@@ -9,7 +9,7 @@ const ErrorBoundary = ({ children }) => {
             console.log(error, errorInfo);
             localStorage.clear();
             sessionStorage.clear();
-            setError({ message: 'Si è verificato un errore. Prova a ricaricare la pagina.' });
+            setError({ message: 'Ricarica la pagina per iniziare.' });
         };
 
         window.addEventListener('error', handleError);
