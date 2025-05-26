@@ -16,17 +16,31 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
+        // Tracciamento per il pulsante "Invia"
         const button = document.querySelector('button[title="Invia"]');
-
         if (button) {
           button.addEventListener('click', () => {
             window?.umami.track('send_message', {
-              buttonTitle: this.getAttribute('title'),
+              buttonTitle: button.getAttribute('title'),
+              method: 'button_click',
               timestamp: new Date().toISOString()
             });
           });
         } else {
           console.warn("Pulsante 'Invia' non trovato nel DOM");
+        }
+
+        // Tracciamento per l'invio del form con tasto Invio
+        const form = document.querySelector('form');
+        if (form) {
+          form.addEventListener('submit', (e) => {
+            window?.umami.track('send_message', {
+              method: 'form_submit',
+              timestamp: new Date().toISOString()
+            });
+          });
+        } else {
+          console.warn("Nessun form trovato nel DOM");
         }
       }, 1000);
     });
