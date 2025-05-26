@@ -15,13 +15,20 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('button[title="Invia"]').addEventListener('click', function () {
-        // Esempio generico di evento per UAMi Analytics
-        window?.umami.track('submit_message_button_click', {
-          buttonTitle: this.getAttribute('title'),
-          timestamp: new Date().toISOString()
-        });
-      });
+      setTimeout(() => {
+        const button = document.querySelector('button[title="Invia"]');
+
+        if (button) {
+          button.addEventListener('click', () => {
+            window?.umami.track('send_message', {
+              buttonTitle: this.getAttribute('title'),
+              timestamp: new Date().toISOString()
+            });
+          });
+        } else {
+          console.warn("Pulsante 'Invia' non trovato nel DOM");
+        }
+      }, 1000);
     });
   </script>
 
