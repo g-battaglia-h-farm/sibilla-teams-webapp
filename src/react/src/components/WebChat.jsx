@@ -166,7 +166,7 @@ function WebChat() {
                     <div className="header">
                         <ThemeToggle />
 
-                        <button className="header-btn" onClick={sendResetMessage}>
+                        <button className="header-btn" onClick={sendResetMessage} data-umami-event="reset-chat">
                             <NewChatIcon />
                             Nuova chat
                         </button>

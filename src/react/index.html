@@ -11,6 +11,20 @@
 <body class="show-splash">
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+  <button title="Invia" id="inviaBtn">Invia</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('button[title="Invia"]').addEventListener('click', function () {
+        // Esempio generico di evento per UAMi Analytics
+        window?.umami.track('submit_message_button_click', {
+          buttonTitle: this.getAttribute('title'),
+          timestamp: new Date().toISOString()
+        });
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -13,7 +13,7 @@ export default function ThemeToggle() {
     }
 
     return (
-        <button className="theme-toggle" onClick={toggleTheme}>
+        <button className="theme-toggle" onClick={toggleTheme} data-umami-event="toggle-theme">
             {isDark ? <SunIcon /> : <MoonIcon />}
         </button>
     );
