@@ -4,62 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sibilla | Jakala</title>
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="a0e853f7-577c-458e-b47c-b4e6bad67221"></script>
+  <title>Redirect to Sibilla V3</title>
+  <script>
+    window.location.href = "https://sibilla-uat.jakala.io/";
+  </script>
 </head>
 
-<body class="show-splash">
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-  <button title="Invia" id="inviaBtn">Invia</button>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        // Tracciamento per l'invio del form con tasto Invio
-        const form = document.querySelector('form');
-        if (form) {
-          form.addEventListener('submit', (e) => {
-            console.log("Form inviato");
-            window?.umami.track('send_message', {
-              method: 'form_submit',
-              timestamp: new Date().toISOString()
-            });
-          });
-
-          // Se il form non esiste, monitora comunque i tasti Enter sul documento
-          document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey && document.activeElement.tagName !== 'BUTTON') {
-              console.log("Invio con tasto Enter (globale)");
-              window?.umami.track('send_message', {
-                method: 'enter_key_global',
-                timestamp: new Date().toISOString()
-              });
-            }
-          });
-
-          // Aggiungi tracciamento specifico per il tasto Enter
-          const inputField = form.querySelector('input[type="text"], textarea');
-          if (inputField) {
-            inputField.addEventListener('keydown', (e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                console.log("Invio con tasto Enter");
-                window?.umami.track('send_message', {
-                  method: 'enter_key',
-                  timestamp: new Date().toISOString()
-                });
-              }
-            });
-          } else {
-            console.warn("Campo di input non trovato nel form");
-          }
-        } else {
-          console.warn("Nessun form trovato nel DOM");
-        }
-      }, 1000);
-    });
-  </script>
-
+<body>
+  <p>Redirecting to Sibilla V3...</p>
 </body>
 
 </html>
